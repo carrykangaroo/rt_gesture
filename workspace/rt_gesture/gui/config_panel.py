@@ -6,6 +6,7 @@ from dataclasses import asdict
 
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import (
+    QComboBox,
     QDoubleSpinBox,
     QFileDialog,
     QFormLayout,
@@ -76,6 +77,19 @@ class ConfigPanel(QWidget):
         self.rest_spin.setValue(config.inference.rest_threshold)
         form.addRow(QLabel("Rest"), self.rest_spin)
 
+        self.device_combo = QComboBox()
+        self.device_combo.addItem("auto", None)
+        self.device_combo.addItem("cpu", "cpu")
+        self.device_combo.addItem("cuda", "cuda")
+        current_device = config.inference.device
+        matched_index = 0
+        for idx in range(self.device_combo.count()):
+            if self.device_combo.itemData(idx) == current_device:
+                matched_index = idx
+                break
+        self.device_combo.setCurrentIndex(matched_index)
+        form.addRow(QLabel("Device"), self.device_combo)
+
         controls_group = QGroupBox("Controls")
         controls_layout = QVBoxLayout(controls_group)
         self.start_btn = QPushButton("Start System")
@@ -127,6 +141,7 @@ class ConfigPanel(QWidget):
         self._config.inference.threshold = float(self.threshold_spin.value())
         self._config.inference.rejection_threshold = float(self.rejection_spin.value())
         self._config.inference.rest_threshold = float(self.rest_spin.value())
+        self._config.inference.device = self.device_combo.currentData()
         return self._config
 
     def snapshot(self) -> dict:

@@ -10,7 +10,7 @@
 
 ## 1. 文档目标
 
-本文件描述当前代码版本的完整流程能力，并同步 2026-03-07 完成的优化项（H-01~H-14、H-19~H-21）。
+本文件描述当前代码版本的完整流程能力，并同步 2026-03-07 完成的优化项（O-01~O-13）。
 
 覆盖范围：
 
@@ -82,8 +82,9 @@ workspace/
 3. 延迟可观测性：消息头统一携带 `transport_ms`、`infer_ms`、`post_ms`、`pipeline_ms`。
 4. 延迟阈值告警：推理端对 transport/infer/post/pipeline 分阶段告警。
 5. 训练指标补齐：训练流程新增 `MulticlassAccuracy` 并写入 metrics/summary。
-6. 配置增强：新增 `training_debug.yaml`，`training.yaml` 默认 `max_epochs=250`。
-7. 文档与工程同步：README、CHANGELOG、需求/技术文档版本与约束已回刷。
+6. GUI 增强：配置面板新增设备选择器，概率展示新增 Heatmap 视图，支持 GT prompt 可视化列表。
+7. 配置增强：新增 `training_debug.yaml`，`training.yaml` 默认 `max_epochs=250`，checkpoint 路径切换到 `workspace/checkpoints/`。
+8. 文档与工程同步：README、CHANGELOG、需求/技术文档版本与约束已回刷。
 
 ---
 
@@ -123,7 +124,7 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 
 1. 点击 `Start System` 后，GUI 将面板参数写回 YAML。
 2. `ProcessManager` 启动 `python -m rt_gesture.main`。
-3. `ZmqReaderThread` 订阅 EMG 与结果流，驱动波形、概率条、事件列表更新。
+3. `ZmqReaderThread` 订阅 EMG/GT/结果流，驱动波形、概率条/热力图、事件列表与 GT 列表更新。
 4. 状态栏显示 FPS、延迟、设备和心跳状态。
 5. 心跳状态流转：`--` -> `waiting` -> `ok`；超时后显示 `timeout` 并标记 `Heartbeat timeout`。
 6. 点击 `Stop System` 后发送 `SHUTDOWN`，等待后端退出，超时则 terminate/kill。
@@ -195,8 +196,8 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 ### 5.3 关键 Header 字段
 
 1. 协议基础：`version`, `seq`, `timestamp`, `msg_type`。
-2. 概率消息：`time_start`, `time_end`, `transport_ms`, `infer_ms`, `pipeline_ms`。
-3. 事件消息：`gesture`, `event_time`, `confidence`, `transport_ms`, `infer_ms`, `post_ms`, `pipeline_ms`。
+2. 概率消息：`time_start`, `time_end`, `time_start_rel`, `time_end_rel`, `transport_ms`, `infer_ms`, `pipeline_ms`。
+3. 事件消息：`gesture`, `event_time`, `event_time_rel`, `confidence`, `transport_ms`, `infer_ms`, `post_ms`, `pipeline_ms`。
 4. 心跳消息：`device`。
 
 ### 5.4 延迟阈值配置
@@ -227,6 +228,7 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 ### 6.3 评估配置
 
 1. `config/evaluation.yaml`：CLER 对齐评估配置。
+2. `evaluate.py` 会将 `checkpoint_path`、`hdf5_path`、`report_path` 按配置文件目录解析为绝对路径。
 
 ---
 
@@ -267,7 +269,7 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 ### 8.2 最近一次全量结果（2026-03-07）
 
 1. `conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 python -m pytest -q`
-2. 结果：`41 passed`
+2. 结果：`48 passed`
 3. 结论：当前优化变更无回归失败。
 
 ---
@@ -276,15 +278,14 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 
 ### 9.1 已完成
 
-1. H-01 ~ H-14
-2. H-19 ~ H-21
+1. O-01 ~ O-13
 
 ### 9.2 待外部环境验证
 
-1. H-15：full 数据集 CLER 基准验证。
-2. H-16：Windows + CUDA 实机验收。
-3. H-17：分钟级长时间稳定性验证。
-4. H-18：full 数据集 250 epoch 训练与对比。
+1. O-14：full 数据集 CLER 基准验证。
+2. O-15：Windows + CUDA 实机验收。
+3. O-16：分钟级长时间稳定性验证。
+4. O-17：full 数据集 250 epoch 训练与对比。
 
 ---
 

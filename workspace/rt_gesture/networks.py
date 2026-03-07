@@ -108,7 +108,8 @@ class DiscreteGesturesArchitecture(nn.Module):
         new_samples:
             Tensor with shape (B, C, N).
         conv_history:
-            Tail buffer from previous step with shape (B, C, H), H can be zero.
+            Tail buffer from previous step with shape (B, C, H),
+            where 0 <= H <= left_context.
         lstm_state:
             Previous LSTM hidden state tuple (h, c), or None for init.
 

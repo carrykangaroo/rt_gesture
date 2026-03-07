@@ -47,6 +47,7 @@ class InferenceEngine:
         self._running = False
         self._consecutive_drops = 0
         self._next_frame_index = 0
+        self._stream_start_time: float | None = None
         self._has_received_data = False
         self._data_interrupted = False
         self._last_heartbeat_time = 0.0
@@ -189,6 +190,8 @@ class InferenceEngine:
             header, emg_array = payload
             if emg_array is None:
                 continue
+            if self._stream_start_time is None and "stream_start_time" in header:
+                self._stream_start_time = float(header["stream_start_time"])
             self._has_received_data = True
             self._data_interrupted = False
 
@@ -221,14 +224,19 @@ class InferenceEngine:
                 continue
 
             probs = torch.sigmoid(logits).squeeze(0).cpu().numpy().astype(np.float32)
-            frame_times = (
+            frame_times_rel = (
                 self._next_frame_index + np.arange(frame_count, dtype=np.float64)
             ) * (MODEL_STRIDE / EMG_SAMPLE_RATE)
             self._next_frame_index += frame_count
+            if self._stream_start_time is None:
+                frame_times = frame_times_rel
+            else:
+                frame_times = frame_times_rel + self._stream_start_time
 
             if self._warm_up_remaining > 0:
                 skip = min(self._warm_up_remaining, frame_count)
                 probs = probs[:, skip:]
+                frame_times_rel = frame_times_rel[skip:]
                 frame_times = frame_times[skip:]
                 self._warm_up_remaining -= skip
                 if probs.shape[1] == 0:
@@ -242,6 +250,8 @@ class InferenceEngine:
                 extra_header={
                     "time_start": float(frame_times[0]),
                     "time_end": float(frame_times[-1]),
+                    "time_start_rel": float(frame_times_rel[0]),
+                    "time_end_rel": float(frame_times_rel[-1]),
                     "infer_ms": round(infer_ms, 3),
                     "transport_ms": round(transport_ms, 3),
                     "pipeline_ms": round((time.monotonic() - float(header["timestamp"])) * 1000.0, 3),
@@ -270,6 +280,11 @@ class InferenceEngine:
                     extra_header={
                         "gesture": event.gesture,
                         "event_time": event.timestamp,
+                        "event_time_rel": (
+                            event.timestamp - self._stream_start_time
+                            if self._stream_start_time is not None
+                            else event.timestamp
+                        ),
                         "confidence": event.confidence,
                         "transport_ms": round(transport_ms, 3),
                         "infer_ms": round(infer_ms, 3),

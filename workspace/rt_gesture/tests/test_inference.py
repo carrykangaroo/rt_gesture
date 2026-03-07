@@ -147,7 +147,11 @@ def test_inference_latency_headers_and_callback_api() -> None:
     time.sleep(0.1)
 
     emg = np.random.randn(16, 40).astype(np.float32)
-    emg_pub.send(MsgType.EMG_CHUNK, extra_header={"sample_offset": 0}, array=emg)
+    emg_pub.send(
+        MsgType.EMG_CHUNK,
+        extra_header={"sample_offset": 0, "stream_start_time": 10.0},
+        array=emg,
+    )
 
     saw_probabilities = False
     saw_event = False
@@ -161,14 +165,16 @@ def test_inference_latency_headers_and_callback_api() -> None:
         if msg_type == MsgType.PROBABILITIES:
             saw_probabilities = True
             assert array is not None
-            for key in ("transport_ms", "infer_ms", "pipeline_ms"):
+            for key in ("transport_ms", "infer_ms", "pipeline_ms", "time_start_rel", "time_end_rel"):
                 assert key in header
                 assert float(header[key]) >= 0.0
+            assert float(header["time_start"]) >= 10.0
         if msg_type == MsgType.GESTURE_EVENT:
             saw_event = True
-            for key in ("transport_ms", "infer_ms", "post_ms", "pipeline_ms"):
+            for key in ("transport_ms", "infer_ms", "post_ms", "pipeline_ms", "event_time_rel"):
                 assert key in header
                 assert float(header[key]) >= 0.0
+            assert float(header["event_time"]) >= 10.0
 
     thread.join(timeout=3.0)
     if thread.is_alive():

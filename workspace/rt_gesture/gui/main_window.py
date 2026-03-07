@@ -30,6 +30,7 @@ class ZmqReaderThread(QThread):
     emg_chunk = pyqtSignal(object)
     probability_frame = pyqtSignal(object, object)
     gesture_event = pyqtSignal(dict)
+    ground_truth = pyqtSignal(object)
     heartbeat = pyqtSignal(dict)
     stream_status = pyqtSignal(str)
 
@@ -42,9 +43,11 @@ class ZmqReaderThread(QThread):
         self._running = True
         ctx = zmq.Context()
         emg_sub = ZmqSubscriber(ctx, port=self._cfg.gui.emg_port, connect=True)
+        gt_sub = ZmqSubscriber(ctx, port=self._cfg.gui.gt_port, connect=True)
         result_sub = ZmqSubscriber(ctx, port=self._cfg.gui.result_port, connect=True)
         poller = zmq.Poller()
         poller.register(emg_sub.socket, zmq.POLLIN)
+        poller.register(gt_sub.socket, zmq.POLLIN)
         poller.register(result_sub.socket, zmq.POLLIN)
         self.stream_status.emit("Connected")
 
@@ -57,6 +60,12 @@ class ZmqReaderThread(QThread):
                         _, array = received
                         if array is not None:
                             self.emg_chunk.emit(array)
+                if gt_sub.socket in events:
+                    received = gt_sub.recv(timeout_ms=0)
+                    if received is not None:
+                        header, _ = received
+                        if header.get("msg_type") == MsgType.GROUND_TRUTH:
+                            self.ground_truth.emit(header.get("prompts", []))
                 if result_sub.socket in events:
                     received = result_sub.recv(timeout_ms=0)
                     if received is None:
@@ -71,6 +80,7 @@ class ZmqReaderThread(QThread):
                         self.heartbeat.emit(header)
         finally:
             emg_sub.close()
+            gt_sub.close()
             result_sub.close()
             ctx.term()
             self.stream_status.emit("Disconnected")
@@ -135,6 +145,7 @@ class MainWindow(QMainWindow):
         reader.emg_chunk.connect(self.on_emg_chunk)
         reader.probability_frame.connect(self.on_probability_frame)
         reader.gesture_event.connect(self.on_gesture_event)
+        reader.ground_truth.connect(self.on_ground_truth)
         reader.heartbeat.connect(self.on_heartbeat)
         reader.stream_status.connect(self.monitor_status.update_state)
 
@@ -210,6 +221,12 @@ class MainWindow(QMainWindow):
             float(header_dict.get("event_time", 0.0)),
             float(header_dict.get("confidence", 0.0)),
         )
+
+    def on_ground_truth(self, prompts: object) -> None:
+        if self._display_paused:
+            return
+        if isinstance(prompts, list):
+            self.gesture_display.append_ground_truth_prompts(prompts)
 
     def on_heartbeat(self, header: object) -> None:
         header_dict = header if isinstance(header, dict) else {}

@@ -1,6 +1,6 @@
 # Changelog
 
-## 2026-03-07
+## [0.2.0] - 2026-03-07
 
 ### Added
 - 推理引擎事件回调 API：`register_event_callback()` / `unregister_event_callback()`。
@@ -10,6 +10,14 @@
 - 共享 pytest fixtures：`rt_gesture/tests/conftest.py`。
 - 训练调试配置：`config/training_debug.yaml`。
 - 工程占位目录：`checkpoints/.gitkeep`、`logs/.gitkeep`。
+- GUI 配置面板新增设备选择器（auto/cpu/cuda）。
+- GUI 新增 ground-truth prompts 可视化列表。
+- GUI 新增概率 Heatmap 视图（Bars/Heatmap 双 tab）。
+- GUI 组件测试：`test_gui.py`。
+- 数据中断恢复集成测试：`test_integration.py::test_inference_recovers_after_data_timeout_gap`。
+- shutdown 端口释放验证：`test_process_manager.py::test_control_port_can_be_rebound_after_stop`。
+- transforms 单元测试：`test_transforms.py`。
+- CLER 覆盖增强测试（debounce、边界事件、对齐索引、误差断言）。
 
 ### Changed
 - `config/training.yaml` 默认 `max_epochs` 调整为 `250`。
@@ -17,6 +25,8 @@
 - benchmark 测试增强：forward_streaming、event_detector、ZMQ、端到端 pipeline 延迟预算断言。
 - README 扩展：架构图、模块/API 概览、配置说明、开发测试指南。
 - 需求文档与技术文档同步到最新实现（版本、配置结构、pyzmq 约束）。
+- `setup.py` 版本读取改为单源（`rt_gesture.__version__`）。
+- `InferenceEngine` 输出时间戳补充 `time_start_rel/time_end_rel/event_time_rel`。
 
 ### Fixed
 - 推理输出消息头中概率帧与事件帧的延迟字段一致性。

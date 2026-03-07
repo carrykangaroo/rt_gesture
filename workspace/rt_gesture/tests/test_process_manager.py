@@ -4,6 +4,8 @@ import socket
 import sys
 import time
 
+import zmq
+
 from rt_gesture.gui.process_manager import ProcessManager
 
 
@@ -36,3 +38,21 @@ def test_stop_falls_back_to_terminate_when_no_shutdown_subscriber() -> None:
     time.sleep(0.1)
     assert not manager.is_running()
 
+
+def test_control_port_can_be_rebound_after_stop() -> None:
+    manager = ProcessManager()
+    control_port = _pick_free_port()
+    started = manager.start_command([sys.executable, "-c", "import time; time.sleep(30)"])
+    assert started
+    assert manager.is_running()
+
+    stopped = manager.stop(control_port=control_port, timeout_sec=0.1)
+    assert stopped
+
+    ctx = zmq.Context()
+    sock = ctx.socket(zmq.PUB)
+    try:
+        sock.bind(f"tcp://*:{control_port}")
+    finally:
+        sock.close(linger=0)
+        ctx.term()

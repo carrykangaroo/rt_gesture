@@ -27,43 +27,46 @@ class EvaluationConfig:
     hdf5_path: str
     device: str = "cpu"
     chunk_size: int = 40
+    full_chunk_size: int = 16000
     threshold: float = THRESHOLD
     debounce: float = DEBOUNCE
     report_path: str = "logs/evaluation_report.json"
 
 
+def _resolve_path(path_str: str, base_dir: Path) -> str:
+    path = Path(path_str).expanduser()
+    if not path.is_absolute():
+        path = (base_dir / path).resolve()
+    return str(path)
+
+
 def load_evaluation_config(path: str | Path) -> EvaluationConfig:
-    with Path(path).open("r", encoding="utf-8") as handle:
+    config_path = Path(path)
+    with config_path.open("r", encoding="utf-8") as handle:
         raw = yaml.safe_load(handle) or {}
-    return EvaluationConfig(**raw)
+    cfg = EvaluationConfig(**raw)
+    cfg.checkpoint_path = _resolve_path(cfg.checkpoint_path, base_dir=config_path.parent)
+    cfg.hdf5_path = _resolve_path(cfg.hdf5_path, base_dir=config_path.parent)
+    cfg.report_path = _resolve_path(cfg.report_path, base_dir=config_path.parent)
+    return cfg
 
 
-def run_full_forward(
-    model: DiscreteGesturesArchitecture,
-    emg: torch.Tensor,
-    times: np.ndarray,
-    device: str,
-) -> tuple[np.ndarray, np.ndarray]:
-    with torch.no_grad():
-        logits = model(emg.to(device))
-        probs = torch.sigmoid(logits).squeeze(0).cpu().numpy()
-    aligned_times = times[model.left_context :: model.stride][: probs.shape[1]]
-    return probs.astype(np.float32), aligned_times.astype(np.float64)
-
-
-def run_streaming_forward(
+def _run_forward_in_chunks(
     model: DiscreteGesturesArchitecture,
     emg: torch.Tensor,
     times: np.ndarray,
     chunk_size: int,
     device: str,
 ) -> tuple[np.ndarray, np.ndarray]:
+    if chunk_size <= 0:
+        raise ValueError(f"chunk_size must be > 0, got {chunk_size}")
+
     model.eval()
     conv_history = torch.zeros(1, emg.shape[1], 0, device=device, dtype=torch.float32)
     lstm_state = None
     outputs: list[np.ndarray] = []
     for start in range(0, emg.shape[2], chunk_size):
-        chunk = emg[:, :, start : start + chunk_size].to(device)
+        chunk = emg[:, :, start : start + chunk_size].to(device=device, dtype=torch.float32)
         with torch.no_grad():
             logits, conv_history, lstm_state = model.forward_streaming(
                 new_samples=chunk,
@@ -81,13 +84,56 @@ def run_streaming_forward(
     return concatenated, aligned_times.astype(np.float64)
 
 
+def run_full_forward(
+    model: DiscreteGesturesArchitecture,
+    emg: torch.Tensor,
+    times: np.ndarray,
+    device: str,
+    chunk_size: int = 16000,
+) -> tuple[np.ndarray, np.ndarray]:
+    return _run_forward_in_chunks(
+        model=model,
+        emg=emg,
+        times=times,
+        chunk_size=chunk_size,
+        device=device,
+    )
+
+
+def run_streaming_forward(
+    model: DiscreteGesturesArchitecture,
+    emg: torch.Tensor,
+    times: np.ndarray,
+    chunk_size: int,
+    device: str,
+) -> tuple[np.ndarray, np.ndarray]:
+    return _run_forward_in_chunks(
+        model=model,
+        emg=emg,
+        times=times,
+        chunk_size=chunk_size,
+        device=device,
+    )
+
+
 def evaluate_cler_consistency(config: EvaluationConfig) -> dict[str, float | str]:
+    if config.chunk_size <= 0:
+        raise ValueError("chunk_size must be > 0")
+    if config.full_chunk_size <= 0:
+        raise ValueError("full_chunk_size must be > 0")
+
     model = load_model_from_lightning_checkpoint(config.checkpoint_path, device=config.device)
     model.eval()
 
     emg, times, prompts = load_full_discrete_gesture_recording(config.hdf5_path)
     start = time.perf_counter()
-    full_probs, full_times = run_full_forward(model, emg, times, config.device)
+    full_probs, full_times = run_full_forward(
+        model=model,
+        emg=emg,
+        times=times,
+        device=config.device,
+        chunk_size=config.full_chunk_size,
+    )
     full_elapsed_ms = (time.perf_counter() - start) * 1000.0
     full_cler = float(compute_cler(full_probs, full_times, prompts))
 
@@ -105,6 +151,8 @@ def evaluate_cler_consistency(config: EvaluationConfig) -> dict[str, float | str
     result = {
         "checkpoint_path": str(config.checkpoint_path),
         "hdf5_path": str(config.hdf5_path),
+        "full_chunk_size": float(config.full_chunk_size),
+        "stream_chunk_size": float(config.chunk_size),
         "full_cler": full_cler,
         "streaming_cler": stream_cler,
         "cler_abs_diff": abs(full_cler - stream_cler),

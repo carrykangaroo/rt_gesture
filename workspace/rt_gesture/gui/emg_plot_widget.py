@@ -53,7 +53,13 @@ class EmgPlotWidget(QWidget):
         data = np.concatenate(list(self._buffer), axis=1)
         n = data.shape[1]
         x = np.arange(n, dtype=np.float32)
+        view_width_px = max(1, int(self.plot.width()))
+        downsample_step = max(1, n // view_width_px) if n > view_width_px else 1
+        if downsample_step > 1:
+            x = x[::downsample_step]
 
         for channel_idx, curve in enumerate(self.curves):
             y = data[channel_idx] + channel_idx * 250.0
+            if downsample_step > 1:
+                y = y[::downsample_step]
             curve.setData(x, y)

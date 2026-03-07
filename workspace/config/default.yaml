@@ -9,7 +9,7 @@ data_simulator:
   control_port: 5558
 
 inference:
-  checkpoint_path: "../../generic-neuromotor-interface/emg_models/discrete_gestures/model_checkpoint.ckpt"
+  checkpoint_path: "../checkpoints/discrete_gestures/model_checkpoint.ckpt"
   device: null
   emg_port: 5555
   result_port: 5557

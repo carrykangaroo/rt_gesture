@@ -13,7 +13,7 @@ from rt_gesture.config import DataSimulatorConfig, InferenceConfig
 from rt_gesture.constants import MsgType
 from rt_gesture.data_simulator import DataSimulator
 from rt_gesture.inference_engine import InferenceEngine
-from rt_gesture.zmq_transport import ZmqSubscriber
+from rt_gesture.zmq_transport import ZmqPublisher, ZmqSubscriber
 
 
 def _pick_free_port() -> int:
@@ -116,3 +116,81 @@ def test_end_to_end_simulator_to_inference_pipeline(tmp_path: Path) -> None:
     assert event_messages >= 1
     assert (run_dir / "predictions.npz").exists()
     assert (run_dir / "events.jsonl").exists()
+
+
+def test_inference_recovers_after_data_timeout_gap() -> None:
+    emg_port = _pick_free_port()
+    result_port = _pick_free_port()
+    control_port = _pick_free_port()
+    inf_config = InferenceConfig(
+        checkpoint_path="",
+        device="cpu",
+        emg_port=emg_port,
+        result_port=result_port,
+        control_port=control_port,
+        threshold=0.35,
+        rejection_threshold=0.6,
+        rest_threshold=0.15,
+        debounce_sec=0.05,
+        data_timeout_ms=100,
+        warm_up_frames=0,
+        max_consecutive_drops=3,
+        heartbeat_interval_sec=0.2,
+    )
+    engine = InferenceEngine(inf_config)
+
+    ctx = zmq.Context()
+    emg_pub = ZmqPublisher(ctx, port=emg_port, bind=True)
+    result_sub = ZmqSubscriber(ctx, port=result_port, connect=True)
+    control_pub = ZmqPublisher(ctx, port=control_port, bind=True)
+    time.sleep(0.1)
+
+    inference_thread = threading.Thread(target=engine.run, kwargs={"max_messages": None}, daemon=True)
+    inference_thread.start()
+    time.sleep(0.1)
+
+    emg_chunk = np.random.randn(16, 40).astype(np.float32)
+    emg_pub.send(MsgType.EMG_CHUNK, extra_header={"sample_offset": 0, "stream_start_time": 10.0}, array=emg_chunk)
+
+    first_prob_at: float | None = None
+    deadline = time.time() + 3.0
+    while time.time() < deadline:
+        received = result_sub.recv(timeout_ms=200)
+        if received is None:
+            continue
+        header, _ = received
+        if header.get("msg_type") == MsgType.PROBABILITIES:
+            first_prob_at = time.time()
+            break
+
+    assert first_prob_at is not None
+
+    time.sleep(0.35)
+
+    emg_pub.send(MsgType.EMG_CHUNK, extra_header={"sample_offset": 40, "stream_start_time": 10.0}, array=emg_chunk)
+
+    second_prob_at: float | None = None
+    deadline = time.time() + 3.0
+    while time.time() < deadline:
+        received = result_sub.recv(timeout_ms=200)
+        if received is None:
+            continue
+        header, _ = received
+        if header.get("msg_type") == MsgType.PROBABILITIES:
+            second_prob_at = time.time()
+            break
+
+    control_pub.send(MsgType.SHUTDOWN)
+    inference_thread.join(timeout=3.0)
+    if inference_thread.is_alive():
+        engine._running = False
+        inference_thread.join(timeout=1.0)
+
+    control_pub.close()
+    result_sub.close()
+    emg_pub.close()
+    ctx.term()
+    engine.cleanup()
+
+    assert second_prob_at is not None
+    assert second_prob_at > first_prob_at

@@ -70,6 +70,16 @@ python -m pip install -r requirements.txt
 python -m pytest -q
 ```
 
+默认配置期望 checkpoint 位于 `checkpoints/discrete_gestures/model_checkpoint.ckpt`。
+
+可选初始化（若你已有旧路径模型）：
+
+```bash
+mkdir -p checkpoints/discrete_gestures
+ln -sf ../generic-neuromotor-interface/emg_models/discrete_gestures/model_checkpoint.ckpt \
+  checkpoints/discrete_gestures/model_checkpoint.ckpt
+```
+
 实时系统：
 
 ```bash
