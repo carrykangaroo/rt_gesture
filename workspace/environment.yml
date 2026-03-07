@@ -1,0 +1,9 @@
+name: rt-gesture
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.9,<3.13
+  - pip>=24
+  - pip:
+      # Single source of truth for Python package versions.
+      - -r requirements.txt

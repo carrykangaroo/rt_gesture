@@ -1,0 +1,8 @@
+checkpoint_path: "../generic-neuromotor-interface/emg_models/discrete_gestures/model_checkpoint.ckpt"
+hdf5_path: "/mnt/data/Dataset/generic-neuromotor-interface-data/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5"
+device: "cpu"
+chunk_size: 40
+threshold: 0.35
+debounce: 0.05
+report_path: "logs/evaluation_report.json"
+

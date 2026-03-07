@@ -1,0 +1,44 @@
+data_simulator:
+  hdf5_path: "/mnt/data/Dataset/generic-neuromotor-interface-data/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5"
+  chunk_size: 40
+  max_chunks: 5
+  emg_port: 5565
+  gt_port: 5566
+  control_port: 5568
+
+inference:
+  checkpoint_path: "../../generic-neuromotor-interface/emg_models/discrete_gestures/model_checkpoint.ckpt"
+  device: cpu
+  emg_port: 5565
+  result_port: 5567
+  control_port: 5568
+  threshold: 0.35
+  rejection_threshold: 0.6
+  rest_threshold: 0.15
+  debounce_sec: 0.05
+  data_timeout_ms: 500
+  warm_up_frames: 20
+  max_consecutive_drops: 3
+  max_messages: 5
+  heartbeat_interval_sec: 1.0
+  latency_warn_transport_ms: 5.0
+  latency_warn_infer_ms: 10.0
+  latency_warn_post_ms: 5.0
+  latency_warn_pipeline_ms: 80.0
+
+gui:
+  emg_port: 5565
+  result_port: 5567
+  gt_port: 5566
+  control_port: 5568
+  plot_duration_sec: 5.0
+  refresh_rate_hz: 30
+  heartbeat_timeout_sec: 3.0
+
+logging:
+  log_dir: "logs"
+  log_level: "INFO"
+  save_predictions: true
+  save_events: true
+
+shutdown_timeout_sec: 5.0

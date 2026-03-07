@@ -1,0 +1,12 @@
+torch>=2.0,<2.6
+numpy>=1.24,<2.1
+h5py>=3.8,<4
+pandas>=2.0,<3
+numba>=0.60,<1
+tqdm>=4.66,<5
+PyYAML>=6.0,<7
+pyzmq>=25,<28
+msgpack>=1.0,<2
+PyQt6>=6.5,<7
+pyqtgraph>=0.13,<0.14
+pytest>=7,<9
