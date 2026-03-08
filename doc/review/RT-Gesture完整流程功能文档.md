@@ -4,13 +4,13 @@
 > 适用目录：`workspace/`  
 > 更新日期：2026-03-07  
 > 对应需求文档：`doc/实时离散手势识别系统需求规格说明书.md`（v0.3）  
-> 对应技术文档：`doc/技术实现文档.md`（v1.1）
+> 对应技术文档：`doc/技术实现文档.md`（v1.2）
 
 ---
 
 ## 1. 文档目标
 
-本文件描述当前代码版本的完整流程能力，并同步 2026-03-07 完成的优化项（O-01~O-13）。
+本文件描述当前代码版本的完整流程能力，并同步 2026-03-07 完成的优化项（O-01~O-13，N-01~N-11）。
 
 覆盖范围：
 
@@ -30,7 +30,8 @@ workspace/
 │   ├── debug_short.yaml
 │   ├── training.yaml
 │   ├── training_debug.yaml
-│   └── evaluation.yaml
+│   ├── evaluation.yaml
+│   └── evaluation_benchmark.yaml
 ├── checkpoints/
 │   └── .gitkeep
 ├── logs/
@@ -66,6 +67,7 @@ workspace/
 │   ├── run_gui.py
 │   ├── run_training.py
 │   ├── run_evaluation.py
+│   ├── run_stability_validation.py
 │   └── install_deps.py
 ├── requirements.txt
 ├── environment.yml
@@ -84,7 +86,9 @@ workspace/
 5. 训练指标补齐：训练流程新增 `MulticlassAccuracy` 并写入 metrics/summary。
 6. GUI 增强：配置面板新增设备选择器，概率展示新增 Heatmap 视图，支持 GT prompt 可视化列表。
 7. 配置增强：新增 `training_debug.yaml`，`training.yaml` 默认 `max_epochs=250`，checkpoint 路径切换到 `workspace/checkpoints/`。
-8. 文档与工程同步：README、CHANGELOG、需求/技术文档版本与约束已回刷。
+8. CLER 评估优化：`evaluate.py` 新增 `full_chunk_size` 分块 full-forward，解决 CPU OOM。
+9. 稳定性验证脚本：新增 `scripts/run_stability_validation.py`，自动输出延迟/内存趋势报告。
+10. 文档与工程同步：README、CHANGELOG、需求/技术文档版本与约束已回刷。
 
 ---
 
@@ -169,7 +173,7 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 执行步骤：
 
 1. 加载 checkpoint 与评估 HDF5。
-2. 分别执行 `run_full_forward` 与 `run_streaming_forward`。
+2. 分别执行分块 `run_full_forward(full_chunk_size)` 与 `run_streaming_forward(chunk_size)`。
 3. 计算 full/streaming CLER 及 `cler_abs_diff`。
 4. 输出 `logs/evaluation_report.json`。
 
@@ -227,8 +231,10 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 
 ### 6.3 评估配置
 
-1. `config/evaluation.yaml`：CLER 对齐评估配置。
-2. `evaluate.py` 会将 `checkpoint_path`、`hdf5_path`、`report_path` 按配置文件目录解析为绝对路径。
+1. `config/evaluation.yaml`：实时 chunk 对齐评估配置（`chunk_size=40`）。
+2. `config/evaluation_benchmark.yaml`：full recording 基准配置（较大 chunk，避免 CPU 长时运行）。
+3. `full_chunk_size` 用于控制 full-forward 分块大小，避免单次前向触发 OOM。
+4. `evaluate.py` 会将 `checkpoint_path`、`hdf5_path`、`report_path` 按配置文件目录解析为绝对路径。
 
 ---
 
@@ -250,6 +256,8 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 ### 7.3 评估运行
 
 1. `logs/evaluation_report.json`
+2. `logs/evaluation_benchmark_report.json`
+3. `logs/stability_3min_report.json`
 
 ---
 
@@ -262,14 +270,15 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 3. 事件检测：`test_event_detector.py`
 4. 通信与数据：`test_zmq_transport.py`, `test_data_simulator.py`
 5. 推理与集成：`test_inference.py`, `test_integration.py`
-6. GUI 进程管理：`test_process_manager.py`
-7. 训练与评估：`test_training.py`, `test_evaluate.py`, `test_cler_wrapper.py`
-8. 性能基准：`test_benchmark.py`
+6. GUI：`test_gui.py`, `test_process_manager.py`
+7. 训练与评估：`test_training.py`, `test_evaluate.py`, `test_cler_wrapper.py`, `test_transforms.py`
+8. 日志：`test_logger.py`
+9. 性能基准：`test_benchmark.py`
 
 ### 8.2 最近一次全量结果（2026-03-07）
 
 1. `conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 python -m pytest -q`
-2. 结果：`48 passed`
+2. 结果：`59 passed, 1 skipped`
 3. 结论：当前优化变更无回归失败。
 
 ---
@@ -279,13 +288,12 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 ### 9.1 已完成
 
 1. O-01 ~ O-13
+2. N-01 ~ N-11（含 full recording CLER 基准与 180s 稳定性实跑）
 
 ### 9.2 待外部环境验证
 
-1. O-14：full 数据集 CLER 基准验证。
-2. O-15：Windows + CUDA 实机验收。
-3. O-16：分钟级长时间稳定性验证。
-4. O-17：full 数据集 250 epoch 训练与对比。
+1. N-09：Windows + CUDA 实机验收。
+2. N-12：full 数据集 250 epoch 正式训练与产物验证。
 
 ---
 
@@ -319,4 +327,13 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 # 评估
 conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
   python scripts/run_evaluation.py --config config/evaluation.yaml
+
+# full recording CLER 基准
+conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
+  python scripts/run_evaluation.py --config config/evaluation_benchmark.yaml
+
+# 3 分钟稳定性验证
+conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
+  python scripts/run_stability_validation.py \
+  --config config/default.yaml --duration-sec 180 --report-path logs/stability_3min_report.json
 ```

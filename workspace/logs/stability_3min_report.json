@@ -1,0 +1,49 @@
+{
+  "config_path": "/mnt/ext_drive/workspace/Your WorkSpace/sEMG/CTRL_lab/imporve-generic-neuromotor-interface/workspace/config/default.yaml",
+  "run_dir": "/mnt/ext_drive/workspace/Your WorkSpace/sEMG/CTRL_lab/imporve-generic-neuromotor-interface/workspace/logs/2026-03-07_22-34-55",
+  "duration_requested_sec": 180.0,
+  "duration_observed_sec": 180.77425457199934,
+  "sample_interval_sec": 1.0,
+  "required_chunks": 9010,
+  "chunk_size": 40,
+  "counts": {
+    "probabilities": 8936,
+    "gesture_event": 2,
+    "heartbeat": 177
+  },
+  "latency_stats": {
+    "transport_ms": {
+      "count": 8938,
+      "mean": 0.2256758782725442,
+      "p95": 0.262,
+      "max": 10.814
+    },
+    "infer_ms": {
+      "count": 8938,
+      "mean": 4.155429514432759,
+      "p95": 4.878,
+      "max": 29.346
+    },
+    "post_ms": {
+      "count": 2,
+      "mean": 0.113,
+      "p95": 0.1274,
+      "max": 0.129
+    },
+    "pipeline_ms": {
+      "count": 8938,
+      "mean": 4.516775229357797,
+      "p95": 5.2631499999999996,
+      "max": 30.435
+    }
+  },
+  "memory_stats": {
+    "samples": 178,
+    "start_mb": 308.11328125,
+    "end_mb": 541.5625,
+    "peak_mb": 541.5625,
+    "delta_mb": 233.44921875
+  },
+  "inference_exit_code": 0,
+  "simulator_exit_code": 0
+}

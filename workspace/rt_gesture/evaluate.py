@@ -116,7 +116,7 @@ def run_streaming_forward(
     )
 
 
-def evaluate_cler_consistency(config: EvaluationConfig) -> dict[str, float | str]:
+def evaluate_cler_consistency(config: EvaluationConfig) -> dict[str, float | int | str]:
     if config.chunk_size <= 0:
         raise ValueError("chunk_size must be > 0")
     if config.full_chunk_size <= 0:
@@ -151,15 +151,15 @@ def evaluate_cler_consistency(config: EvaluationConfig) -> dict[str, float | str
     result = {
         "checkpoint_path": str(config.checkpoint_path),
         "hdf5_path": str(config.hdf5_path),
-        "full_chunk_size": float(config.full_chunk_size),
-        "stream_chunk_size": float(config.chunk_size),
+        "full_chunk_size": int(config.full_chunk_size),
+        "stream_chunk_size": int(config.chunk_size),
         "full_cler": full_cler,
         "streaming_cler": stream_cler,
         "cler_abs_diff": abs(full_cler - stream_cler),
         "full_forward_ms": full_elapsed_ms,
         "streaming_forward_ms": stream_elapsed_ms,
-        "frames_full": float(full_probs.shape[1]),
-        "frames_streaming": float(stream_probs.shape[1]),
+        "frames_full": int(full_probs.shape[1]),
+        "frames_streaming": int(stream_probs.shape[1]),
     }
     report_path = Path(config.report_path)
     report_path.parent.mkdir(parents=True, exist_ok=True)

@@ -50,6 +50,7 @@ flowchart LR
 | `config/training.yaml` | 正式训练配置（`max_epochs: 250`） |
 | `config/training_debug.yaml` | 快速训练验证配置（`max_epochs: 1`） |
 | `config/evaluation.yaml` | CLER 评估配置 |
+| `config/evaluation_benchmark.yaml` | full recording CLER 基准配置（较大 chunk，避免 CPU 评估过慢/OOM） |
 
 关键参数（`default.yaml`）：
 
@@ -104,6 +105,17 @@ python scripts/run_training.py --config config/training_debug.yaml
 
 ```bash
 python scripts/run_evaluation.py --config config/evaluation.yaml
+# full recording 基准
+python scripts/run_evaluation.py --config config/evaluation_benchmark.yaml
+```
+
+稳定性验证（3 分钟）：
+
+```bash
+python scripts/run_stability_validation.py \
+  --config config/default.yaml \
+  --duration-sec 180 \
+  --report-path logs/stability_3min_report.json
 ```
 
 ## Development Guide
