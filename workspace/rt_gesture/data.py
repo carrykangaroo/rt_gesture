@@ -29,7 +29,10 @@ from rt_gesture.transforms import DiscreteGesturesTransform, RotationAugmentatio
 # ------------------------------------------------------------------
 
 def get_full_dataset_path(root: str, dataset: str) -> Path:
-    """Return ``root / dataset.hdf5``."""
+    """Return an HDF5 path for a dataset entry from split CSV."""
+    dataset_path = Path(dataset)
+    if dataset_path.suffix.lower() in {".hdf5", ".h5"}:
+        return Path(root) / dataset_path
     return Path(root) / f"{dataset}.hdf5"
 
 

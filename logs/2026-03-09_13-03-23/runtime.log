@@ -1,0 +1,9 @@
+2026-03-09 13:03:23,289 [INFO] rt_gesture.main: RT-Gesture run directory: logs/2026-03-09_13-03-23
+2026-03-09 13:03:23,295 [INFO] rt_gesture.main: InferenceEngine started (pid=20186)
+2026-03-09 13:03:23,802 [INFO] rt_gesture.main: DataSimulator started (pid=20190)
+2026-03-09 13:03:23,812 [INFO] rt_gesture.main: DataSimulator exited
+2026-03-09 13:03:27,002 [INFO] rt_gesture.checkpoint_utils: Loaded checkpoint /home/rxb/rt_gesture/workspace/checkpoints/discrete_gestures/model_checkpoint.ckpt with 6482953 parameters on cuda
+2026-03-09 13:03:27,005 [INFO] rt_gesture.inference_engine: InferenceEngine started on device=cuda
+2026-03-09 13:03:33,924 [WARNING] rt_gesture.main: InferenceEngine timeout, terminating
+2026-03-09 13:03:33,924 [INFO] rt_gesture.inference_engine: InferenceEngine received signal 15
+2026-03-09 13:03:34,108 [INFO] rt_gesture.main: RT-Gesture shutdown complete

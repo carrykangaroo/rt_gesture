@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -28,6 +29,10 @@ from rt_gesture.constants import (
     ZMQ_GT_PORT,
     ZMQ_RESULT_PORT,
 )
+
+_ENV_PATH_DEFAULTS = {
+    "RT_GESTURE_DATA_ROOT": "/Data/CTRL_LAB/Discrete Gestures",
+}
 
 
 @dataclass
@@ -94,7 +99,13 @@ def resolve_path(path_str: str, base_dir: Path | None = None) -> str:
     """Resolve an optional path string into absolute form."""
     if not path_str:
         return path_str
-    path = Path(path_str).expanduser()
+    expanded = path_str
+    for env_name, default_value in _ENV_PATH_DEFAULTS.items():
+        value = os.environ.get(env_name, default_value)
+        expanded = expanded.replace(f"${{{env_name}}}", value)
+        expanded = expanded.replace(f"${env_name}", value)
+    expanded = os.path.expandvars(expanded)
+    path = Path(expanded).expanduser()
     if not path.is_absolute() and base_dir is not None:
         path = base_dir / path
     return str(path.resolve())

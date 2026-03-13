@@ -1,0 +1,28 @@
+data:
+  data_location: /Data/CTRL_LAB/Discrete Gestures/full
+  split_csv: /Data/CTRL_LAB/Discrete Gestures/full/discrete_gestures_corpus.csv
+  pool_test_partitions: false
+  window_length: 16000
+  stride: 16000
+  batch_size: 64
+  num_workers: 0
+  pulse_window:
+  - 0.08
+  - 0.12
+  rotation_augmentation: 2
+  include_test_loader: false
+checkpoint_dir: checkpoints
+run_name: discrete_gestures
+seed: 0
+device: null
+learning_rate: 0.0005
+max_epochs: 250
+gradient_clip_val: 0.5
+lr_scheduler_milestones:
+- 25
+lr_scheduler_factor: 0.5
+warmup_start_factor: 0.001
+warmup_end_factor: 1.0
+warmup_total_epochs: 5
+max_train_steps_per_epoch: null
+max_val_steps_per_epoch: null

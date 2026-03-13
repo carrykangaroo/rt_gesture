@@ -1,0 +1,3 @@
+2026-03-09 12:56:14,654 [INFO] __main__: Stability validation start config=/tmp/rtg_stability_server.yaml duration_sec=180.0 required_chunks=9010
+2026-03-09 12:56:21,587 [WARNING] rt_gesture.zmq_transport: ZMQ port 5617 seq gap: expected=0 got=1 gap=1
+2026-03-09 12:59:17,141 [INFO] __main__: Stability report written to logs/stability_3min_report.json

@@ -1,13 +1,16 @@
+import re
 from pathlib import Path
 
 from setuptools import find_packages, setup
 
 
 def _read_version() -> str:
-    namespace: dict[str, str] = {}
     version_file = Path(__file__).resolve().parent / "rt_gesture" / "__init__.py"
-    exec(version_file.read_text(encoding="utf-8"), namespace)
-    return namespace["__version__"]
+    content = version_file.read_text(encoding="utf-8")
+    match = re.search(r'^__version__\s*=\s*[\"\']([^\"\']+)[\"\']', content, re.MULTILINE)
+    if match is None:
+        raise RuntimeError("Unable to determine package version.")
+    return match.group(1)
 
 
 setup(

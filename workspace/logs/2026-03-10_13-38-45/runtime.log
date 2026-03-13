@@ -1,0 +1,13 @@
+2026-03-10 13:38:45,102 [INFO] rt_gesture.main: RT-Gesture run directory: logs/2026-03-10_13-38-45
+2026-03-10 13:38:45,108 [INFO] rt_gesture.main: InferenceEngine started (pid=30997)
+2026-03-10 13:38:45,281 [INFO] rt_gesture.checkpoint_utils: Loaded checkpoint /home/rxb/rt_gesture/workspace/checkpoints/discrete_gestures/model_checkpoint.ckpt with 6482953 parameters on cpu
+2026-03-10 13:38:45,289 [INFO] rt_gesture.inference_engine: InferenceEngine started on device=cpu
+2026-03-10 13:38:45,615 [INFO] rt_gesture.main: DataSimulator started (pid=31011)
+2026-03-10 13:38:45,953 [INFO] rt_gesture.data_simulator: Loaded HDF5 file /Data/CTRL_LAB/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5 with 5480192 samples and 1900 prompts
+2026-03-10 13:38:45,953 [INFO] rt_gesture.data_simulator: DataSimulator started
+2026-03-10 13:38:45,993 [WARNING] rt_gesture.inference_engine: Inference latency high: 36.037 ms (threshold 10.000 ms)
+2026-03-10 13:38:46,000 [WARNING] rt_gesture.inference_engine: Transport latency high: 19.549 ms (threshold 5.000 ms)
+2026-03-10 13:38:46,006 [WARNING] rt_gesture.inference_engine: Transport latency high: 6.477 ms (threshold 5.000 ms)
+2026-03-10 13:38:46,035 [INFO] rt_gesture.data_simulator: DataSimulator stopped after 5 chunks (200/5480192 samples)
+2026-03-10 13:38:46,076 [INFO] rt_gesture.main: DataSimulator exited (code=0)
+2026-03-10 13:38:46,178 [INFO] rt_gesture.main: RT-Gesture shutdown complete

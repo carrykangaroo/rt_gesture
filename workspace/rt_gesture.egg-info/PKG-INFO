@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: rt_gesture
+Version: 0.2.0
+Summary: Real-time discrete gesture recognition workspace package
+Requires-Python: >=3.9,<3.13
+Dynamic: requires-python
+Dynamic: summary

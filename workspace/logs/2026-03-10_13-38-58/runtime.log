@@ -1,0 +1,4 @@
+2026-03-10 13:38:58,637 [INFO] __main__: Stability validation start config=config/debug_short.yaml duration_sec=20.0 required_chunks=1010
+2026-03-10 13:39:01,767 [WARNING] rt_gesture.zmq_transport: ZMQ port 5567 seq gap: expected=0 got=1 gap=1
+2026-03-10 13:39:01,767 [INFO] __main__: Warm-up completed at 2.615s (first probabilities message received)
+2026-03-10 13:39:19,986 [INFO] __main__: Stability report written to logs/stability_20s_report.json

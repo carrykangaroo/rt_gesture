@@ -1,0 +1,64 @@
+{
+  "config_path": "/home/rxb/rt_gesture/workspace/config/debug_short.yaml",
+  "run_dir": "/home/rxb/rt_gesture/workspace/logs/2026-03-10_13-38-58",
+  "duration_requested_sec": 20.0,
+  "duration_observed_sec": 20.840715397993336,
+  "sample_interval_sec": 1.0,
+  "required_chunks": 1010,
+  "chunk_size": 40,
+  "counts": {
+    "probabilities": 872,
+    "gesture_event": 0,
+    "heartbeat": 17
+  },
+  "latency_stats": {
+    "transport_ms": {
+      "count": 872,
+      "mean": 0.3390389908256881,
+      "p95": 0.355,
+      "p99": 0.40573999999999977,
+      "max": 17.31
+    },
+    "infer_ms": {
+      "count": 872,
+      "mean": 3.9862878440366973,
+      "p95": 5.3488999999999995,
+      "p99": 5.9467699999999954,
+      "max": 35.158
+    },
+    "post_ms": {
+      "count": 0,
+      "mean": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "pipeline_ms": {
+      "count": 872,
+      "mean": 4.518579128440367,
+      "p95": 5.934549999999999,
+      "p99": 6.540239999999998,
+      "max": 36.484
+    }
+  },
+  "memory_stats": {
+    "samples": 20,
+    "samples_total": 20,
+    "samples_startup": 3,
+    "samples_steady_state": 18,
+    "warmup_elapsed_sec": 2.614681629987899,
+    "start_mb": 111.28125,
+    "warmup_mb": 395.64453125,
+    "end_mb": 424.94921875,
+    "peak_mb": 424.94921875,
+    "delta_mb": 313.66796875,
+    "startup_delta_mb": 284.36328125,
+    "steady_state_start_mb": 395.64453125,
+    "steady_state_end_mb": 424.94921875,
+    "steady_state_delta_mb": 29.3046875,
+    "startup_peak_mb": 364.7265625,
+    "steady_state_peak_mb": 424.94921875
+  },
+  "inference_exit_code": 0,
+  "simulator_exit_code": 0
+}

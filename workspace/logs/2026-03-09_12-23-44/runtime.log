@@ -1,0 +1,5 @@
+2026-03-09 12:23:44,804 [INFO] rt_gesture.main: RT-Gesture run directory: logs/2026-03-09_12-23-44
+2026-03-09 12:23:44,810 [INFO] rt_gesture.main: InferenceEngine started (pid=16743)
+2026-03-09 12:23:45,321 [INFO] rt_gesture.main: DataSimulator started (pid=16755)
+2026-03-09 12:23:45,350 [INFO] rt_gesture.main: DataSimulator exited
+2026-03-09 12:23:45,452 [INFO] rt_gesture.main: RT-Gesture shutdown complete

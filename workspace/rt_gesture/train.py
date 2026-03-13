@@ -6,6 +6,7 @@ import argparse
 import json
 import logging
 import math
+import os
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -118,10 +119,28 @@ def _dict_to_training_config(raw: dict) -> TrainingConfig:
     )
 
 
+def _resolve_training_path(path_str: str, base_dir: Path | None) -> str:
+    data_root = os.environ.get("RT_GESTURE_DATA_ROOT", "/Data/CTRL_LAB/Discrete Gestures")
+    expanded = path_str.replace("${RT_GESTURE_DATA_ROOT}", data_root).replace(
+        "$RT_GESTURE_DATA_ROOT",
+        data_root,
+    )
+    expanded = os.path.expandvars(expanded)
+    path = Path(expanded).expanduser()
+    if base_dir is not None and not path.is_absolute():
+        path = (base_dir / path).resolve()
+    return str(path)
+
+
 def load_training_config(config_path: str | Path) -> TrainingConfig:
-    with Path(config_path).open("r", encoding="utf-8") as handle:
+    config_file = Path(config_path)
+    with config_file.open("r", encoding="utf-8") as handle:
         raw = yaml.safe_load(handle) or {}
-    return _dict_to_training_config(raw)
+    config = _dict_to_training_config(raw)
+    config.data.data_location = _resolve_training_path(config.data.data_location, config_file.parent)
+    config.data.split_csv = _resolve_training_path(config.data.split_csv, config_file.parent)
+    config.checkpoint_dir = _resolve_training_path(config.checkpoint_dir, base_dir=None)
+    return config
 
 
 def save_training_config(config: TrainingConfig, path: str | Path) -> None:
@@ -245,7 +264,7 @@ def _checkpoint_payload(
     }
 
 
-def train_discrete_gestures(config: TrainingConfig) -> dict[str, str | float]:
+def train_discrete_gestures(config: TrainingConfig) -> dict[str, object]:
     torch.manual_seed(config.seed)
     device = _resolve_device(config.device)
     train_loader, val_loader, _ = make_discrete_gesture_dataloaders(config.data)
@@ -275,6 +294,7 @@ def train_discrete_gestures(config: TrainingConfig) -> dict[str, str | float]:
     best_val_multiclass_acc = float("nan")
     best_checkpoint = run_dir / "best.ckpt"
     last_checkpoint = run_dir / "last.ckpt"
+    epoch_history: list[dict[str, float | int]] = []
 
     for epoch in range(1, config.max_epochs + 1):
         train_loss, train_acc, train_multiclass_acc = _run_epoch(
@@ -307,6 +327,7 @@ def train_discrete_gestures(config: TrainingConfig) -> dict[str, str | float]:
             "val_multiclass_accuracy": val_multiclass_acc,
             "lr": optimizer.param_groups[0]["lr"],
         }
+        epoch_history.append({"epoch": epoch, **metrics})
         log.info(
             (
                 "epoch=%s train_loss=%.6f val_loss=%.6f train_acc=%.4f "
@@ -333,6 +354,7 @@ def train_discrete_gestures(config: TrainingConfig) -> dict[str, str | float]:
         "last_checkpoint": str(last_checkpoint),
         "best_val_loss": float(best_val_loss),
         "best_val_multiclass_accuracy": float(best_val_multiclass_acc),
+        "epoch_history": epoch_history,
     }
     (run_dir / "training_summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2),

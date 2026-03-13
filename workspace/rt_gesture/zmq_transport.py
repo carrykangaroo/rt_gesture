@@ -13,16 +13,29 @@ import zmq
 log = logging.getLogger(__name__)
 
 
+def _set_sockopt_if_supported(socket: zmq.Socket, option: int, value: int) -> None:
+    try:
+        socket.setsockopt(option, value)
+    except (AttributeError, zmq.ZMQError):
+        # Keep compatibility with older libzmq builds lacking specific options.
+        return
+
+
 class ZmqPublisher:
     """Thin publisher wrapper using a unified wire format."""
 
     def __init__(self, context: zmq.Context, port: int, bind: bool = True) -> None:
         self._socket = context.socket(zmq.PUB)
+        self._socket.setsockopt(zmq.LINGER, 0)
+        _set_sockopt_if_supported(self._socket, zmq.IMMEDIATE, 1)
+        _set_sockopt_if_supported(self._socket, zmq.TCP_KEEPALIVE, 1)
+        reuse_addr = getattr(zmq, "REUSEADDR", None)
+        if reuse_addr is not None:
+            _set_sockopt_if_supported(self._socket, reuse_addr, 1)
         if bind:
             self._socket.bind(f"tcp://*:{port}")
         else:
             self._socket.connect(f"tcp://localhost:{port}")
-        self._socket.setsockopt(zmq.LINGER, 0)
         self._seq = 0
 
     def send(
@@ -69,12 +82,16 @@ class ZmqSubscriber:
         topic: bytes = b"",
     ) -> None:
         self._socket = context.socket(zmq.SUB)
+        self._socket.setsockopt(zmq.LINGER, 0)
+        _set_sockopt_if_supported(self._socket, zmq.TCP_KEEPALIVE, 1)
+        reuse_addr = getattr(zmq, "REUSEADDR", None)
+        if reuse_addr is not None:
+            _set_sockopt_if_supported(self._socket, reuse_addr, 1)
         if connect:
             self._socket.connect(f"tcp://localhost:{port}")
         else:
             self._socket.bind(f"tcp://*:{port}")
         self._socket.setsockopt(zmq.SUBSCRIBE, topic)
-        self._socket.setsockopt(zmq.LINGER, 0)
         self._expected_seq = 0
         self.last_gap = 0
         self._port = port
@@ -114,4 +131,3 @@ class ZmqSubscriber:
 
     def close(self) -> None:
         self._socket.close(linger=0)
-

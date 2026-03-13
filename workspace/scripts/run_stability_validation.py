@@ -65,14 +65,21 @@ def _read_rss_mb(pid: int) -> float | None:
 
 def _series_stats(values: list[float]) -> dict[str, float | int | None]:
     if not values:
-        return {"count": 0, "mean": None, "p95": None, "max": None}
+        return {"count": 0, "mean": None, "p95": None, "p99": None, "max": None}
     arr = np.asarray(values, dtype=np.float64)
     return {
         "count": int(arr.size),
         "mean": float(arr.mean()),
         "p95": float(np.percentile(arr, 95)),
+        "p99": float(np.percentile(arr, 99)),
         "max": float(arr.max()),
     }
+
+
+def _delta_mb(start_mb: float | None, end_mb: float | None) -> float | None:
+    if start_mb is None or end_mb is None:
+        return None
+    return float(end_mb - start_mb)
 
 
 def _start_processes(config: AppConfig, run_dir: Path) -> tuple[mp.Process, mp.Process]:
@@ -124,29 +131,37 @@ def run_validation(config_path: str, duration_sec: float, sample_interval_sec: f
         "heartbeat": 0,
     }
     rss_samples: list[tuple[float, float]] = []
+    startup_rss_samples: list[tuple[float, float]] = []
+    steady_rss_samples: list[tuple[float, float]] = []
+    warmup_elapsed_sec: float | None = None
+    warmup_rss_mb: float | None = None
 
     start = time.monotonic()
+    next_sample_at = start
     try:
         while True:
-            elapsed = time.monotonic() - start
+            now = time.monotonic()
+            elapsed = now - start
             if elapsed >= duration_sec:
                 break
             if not inference_proc.is_alive() and not data_proc.is_alive():
                 break
 
-            rss_mb = _read_rss_mb(inference_proc.pid)
-            if rss_mb is not None:
-                rss_samples.append((elapsed, rss_mb))
-
-            next_tick = time.monotonic() + sample_interval_sec
-            while time.monotonic() < next_tick:
-                received = result_sub.recv(timeout_ms=20)
-                if received is None:
-                    continue
+            received = result_sub.recv(timeout_ms=20)
+            if received is not None:
                 header, _ = received
                 msg_type = header.get("msg_type")
                 if msg_type == MsgType.PROBABILITIES:
                     counts["probabilities"] += 1
+                    if warmup_elapsed_sec is None:
+                        warmup_elapsed_sec = float(elapsed)
+                        warmup_rss_mb = _read_rss_mb(inference_proc.pid)
+                        if warmup_rss_mb is not None:
+                            steady_rss_samples.append((warmup_elapsed_sec, warmup_rss_mb))
+                        log.info(
+                            "Warm-up completed at %.3fs (first probabilities message received)",
+                            warmup_elapsed_sec,
+                        )
                 elif msg_type == MsgType.GESTURE_EVENT:
                     counts["gesture_event"] += 1
                 elif msg_type == MsgType.HEARTBEAT:
@@ -154,6 +169,17 @@ def run_validation(config_path: str, duration_sec: float, sample_interval_sec: f
                 for key in latencies:
                     if key in header:
                         latencies[key].append(float(header[key]))
+
+            if now >= next_sample_at:
+                rss_mb = _read_rss_mb(inference_proc.pid)
+                if rss_mb is not None:
+                    sample = (float(elapsed), float(rss_mb))
+                    rss_samples.append(sample)
+                    if warmup_elapsed_sec is None:
+                        startup_rss_samples.append(sample)
+                    else:
+                        steady_rss_samples.append(sample)
+                next_sample_at = now + sample_interval_sec
     finally:
         _send_shutdown(config.inference.control_port)
         data_proc.join(timeout=5.0)
@@ -167,12 +193,29 @@ def run_validation(config_path: str, duration_sec: float, sample_interval_sec: f
 
     observed_duration_sec = float(time.monotonic() - start)
     rss_values = [sample[1] for sample in rss_samples]
+    startup_rss_values = [sample[1] for sample in startup_rss_samples]
+    steady_rss_values = [sample[1] for sample in steady_rss_samples]
+    start_mb = float(rss_values[0]) if rss_values else None
+    end_mb = float(rss_values[-1]) if rss_values else None
+    steady_start_mb = float(steady_rss_values[0]) if steady_rss_values else None
+    steady_end_mb = float(steady_rss_values[-1]) if steady_rss_values else None
     memory_stats = {
         "samples": len(rss_samples),
-        "start_mb": float(rss_values[0]) if rss_values else None,
-        "end_mb": float(rss_values[-1]) if rss_values else None,
+        "samples_total": len(rss_samples),
+        "samples_startup": len(startup_rss_samples),
+        "samples_steady_state": len(steady_rss_samples),
+        "warmup_elapsed_sec": warmup_elapsed_sec,
+        "start_mb": start_mb,
+        "warmup_mb": warmup_rss_mb,
+        "end_mb": end_mb,
         "peak_mb": float(max(rss_values)) if rss_values else None,
-        "delta_mb": float(rss_values[-1] - rss_values[0]) if len(rss_values) >= 2 else None,
+        "delta_mb": _delta_mb(start_mb, end_mb),
+        "startup_delta_mb": _delta_mb(start_mb, warmup_rss_mb),
+        "steady_state_start_mb": steady_start_mb,
+        "steady_state_end_mb": steady_end_mb,
+        "steady_state_delta_mb": _delta_mb(steady_start_mb, steady_end_mb),
+        "startup_peak_mb": float(max(startup_rss_values)) if startup_rss_values else None,
+        "steady_state_peak_mb": float(max(steady_rss_values)) if steady_rss_values else None,
     }
 
     return {

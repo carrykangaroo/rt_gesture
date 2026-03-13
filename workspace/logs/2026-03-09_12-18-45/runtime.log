@@ -1,0 +1,15 @@
+2026-03-09 12:18:45,033 [INFO] rt_gesture.main: RT-Gesture run directory: logs/2026-03-09_12-18-45
+2026-03-09 12:18:45,043 [INFO] rt_gesture.main: InferenceEngine started (pid=15496)
+2026-03-09 12:18:45,045 [WARNING] rt_gesture.inference_engine: Checkpoint missing, using randomly initialized model
+2026-03-09 12:18:45,549 [INFO] rt_gesture.main: DataSimulator started (pid=15504)
+2026-03-09 12:18:48,581 [INFO] rt_gesture.inference_engine: InferenceEngine started on device=cuda
+2026-03-09 12:18:49,740 [INFO] rt_gesture.data_simulator: Loaded HDF5 file /Data/CTRL_LAB/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5 with 5480192 samples and 1900 prompts
+2026-03-09 12:18:49,740 [INFO] rt_gesture.data_simulator: DataSimulator started
+2026-03-09 12:18:49,821 [INFO] rt_gesture.data_simulator: DataSimulator stopped after 5 chunks (200/5480192 samples)
+2026-03-09 12:18:49,850 [INFO] rt_gesture.main: DataSimulator exited
+2026-03-09 12:18:54,955 [WARNING] rt_gesture.main: InferenceEngine timeout, terminating
+2026-03-09 12:18:55,948 [INFO] rt_gesture.inference_engine: InferenceEngine received signal 15
+2026-03-09 12:18:56,587 [WARNING] rt_gesture.inference_engine: Inference latency high: 6823.361 ms (threshold 10.000 ms)
+2026-03-09 12:18:56,587 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 6846.382 ms (threshold 80.000 ms)
+2026-03-09 12:18:56,588 [INFO] rt_gesture.inference_engine: Detected index_press at 1633014930.533s conf=0.763 pipeline=6846.758ms
+2026-03-09 12:18:56,768 [INFO] rt_gesture.main: RT-Gesture shutdown complete

@@ -1,0 +1,7 @@
+{
+  "run_dir": "checkpoints/discrete_gestures_debug_tiny/20260309_124309",
+  "best_checkpoint": "checkpoints/discrete_gestures_debug_tiny/20260309_124309/best.ckpt",
+  "last_checkpoint": "checkpoints/discrete_gestures_debug_tiny/20260309_124309/last.ckpt",
+  "best_val_loss": 0.7162385582923889,
+  "best_val_multiclass_accuracy": 0.0
+}

@@ -1,0 +1,17 @@
+{"gesture": "middle_release", "timestamp": 1633014938.303361, "confidence": 0.253883, "wall_time": "2026-03-09T12:45:25.462473"}
+{"gesture": "index_release", "timestamp": 1633014938.313361, "confidence": 0.277412, "wall_time": "2026-03-09T12:45:25.462931"}
+{"gesture": "middle_release", "timestamp": 1633014938.5283608, "confidence": 0.211695, "wall_time": "2026-03-09T12:45:25.682105"}
+{"gesture": "index_press", "timestamp": 1633014939.433361, "confidence": 0.343995, "wall_time": "2026-03-09T12:45:26.582413"}
+{"gesture": "middle_release", "timestamp": 1633014939.953361, "confidence": 0.203636, "wall_time": "2026-03-09T12:45:27.102402"}
+{"gesture": "index_release", "timestamp": 1633014939.958361, "confidence": 0.305778, "wall_time": "2026-03-09T12:45:27.102731"}
+{"gesture": "index_release", "timestamp": 1633014941.423361, "confidence": 0.208493, "wall_time": "2026-03-09T12:45:28.582396"}
+{"gesture": "index_release", "timestamp": 1633014945.5283608, "confidence": 0.224281, "wall_time": "2026-03-09T12:45:32.682434"}
+{"gesture": "index_release", "timestamp": 1633014945.888361, "confidence": 0.205836, "wall_time": "2026-03-09T12:45:33.042416"}
+{"gesture": "index_release", "timestamp": 1633014947.368361, "confidence": 0.24768, "wall_time": "2026-03-09T12:45:34.522427"}
+{"gesture": "index_release", "timestamp": 1633014947.678361, "confidence": 0.200936, "wall_time": "2026-03-09T12:45:34.822190"}
+{"gesture": "middle_release", "timestamp": 1633014947.703361, "confidence": 0.254393, "wall_time": "2026-03-09T12:45:34.862152"}
+{"gesture": "index_release", "timestamp": 1633014949.158361, "confidence": 0.29133, "wall_time": "2026-03-09T12:45:36.302415"}
+{"gesture": "middle_release", "timestamp": 1633014949.163361, "confidence": 0.237838, "wall_time": "2026-03-09T12:45:36.322446"}
+{"gesture": "index_release", "timestamp": 1633014949.408361, "confidence": 0.202313, "wall_time": "2026-03-09T12:45:36.562235"}
+{"gesture": "index_release", "timestamp": 1633014949.868361, "confidence": 0.205363, "wall_time": "2026-03-09T12:45:37.022417"}
+{"gesture": "middle_release", "timestamp": 1633014950.978361, "confidence": 0.203805, "wall_time": "2026-03-09T12:45:38.122409"}

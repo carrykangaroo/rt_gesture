@@ -1,0 +1,28 @@
+data:
+  data_location: /Data/CTRL_LAB/Discrete Gestures/mini
+  split_csv: /home/rxb/rt_gesture/workspace/config/_tmp_training_split.csv
+  pool_test_partitions: false
+  window_length: 2000
+  stride: 2000
+  batch_size: 4
+  num_workers: 0
+  pulse_window:
+  - 0.08
+  - 0.12
+  rotation_augmentation: 2
+  include_test_loader: false
+checkpoint_dir: checkpoints
+run_name: discrete_gestures_debug_tiny
+seed: 0
+device: cpu
+learning_rate: 0.0005
+max_epochs: 2
+gradient_clip_val: 0.5
+lr_scheduler_milestones:
+- 25
+lr_scheduler_factor: 0.5
+warmup_start_factor: 0.001
+warmup_end_factor: 1.0
+warmup_total_epochs: 1
+max_train_steps_per_epoch: 1
+max_val_steps_per_epoch: 1

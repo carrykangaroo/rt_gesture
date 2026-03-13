@@ -294,7 +294,15 @@ class InferenceEngine:
                 )
                 self._notify_event_callbacks(event)
                 if self._event_logger is not None:
-                    self._event_logger.log_event(event.gesture, event.timestamp, event.confidence)
+                    self._event_logger.log_event(
+                        event.gesture,
+                        event.timestamp,
+                        event.confidence,
+                        transport_ms=transport_ms,
+                        infer_ms=infer_ms,
+                        post_ms=post_ms,
+                        pipeline_ms=pipeline_ms,
+                    )
                 log.info(
                     "Detected %s at %.3fs conf=%.3f pipeline=%.3fms",
                     event.gesture,

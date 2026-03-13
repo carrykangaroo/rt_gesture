@@ -1,0 +1,7 @@
+{
+  "run_dir": "checkpoints/discrete_gestures/20260309_134137",
+  "best_checkpoint": "checkpoints/discrete_gestures/20260309_134137/best.ckpt",
+  "last_checkpoint": "checkpoints/discrete_gestures/20260309_134137/last.ckpt",
+  "best_val_loss": 0.015774391824379563,
+  "best_val_multiclass_accuracy": 0.9325419983693531
+}

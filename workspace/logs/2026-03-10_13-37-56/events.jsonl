@@ -1,0 +1,9 @@
+{"gesture": "index_press", "timestamp": 1633014930.533361, "confidence": 0.001951, "wall_time": "2026-03-10T13:37:57.713846", "transport_ms": 1.213, "infer_ms": 36.085, "post_ms": 0.548, "pipeline_ms": 39.61}
+{"gesture": "index_release", "timestamp": 1633014930.533361, "confidence": 0.003977, "wall_time": "2026-03-10T13:37:57.714136", "transport_ms": 1.213, "infer_ms": 36.085, "post_ms": 0.548, "pipeline_ms": 39.937}
+{"gesture": "middle_press", "timestamp": 1633014930.533361, "confidence": 0.000826, "wall_time": "2026-03-10T13:37:57.714288", "transport_ms": 1.213, "infer_ms": 36.085, "post_ms": 0.548, "pipeline_ms": 40.089}
+{"gesture": "middle_release", "timestamp": 1633014930.533361, "confidence": 0.05803, "wall_time": "2026-03-10T13:37:57.714432", "transport_ms": 1.213, "infer_ms": 36.085, "post_ms": 0.548, "pipeline_ms": 40.238}
+{"gesture": "thumb_click", "timestamp": 1633014930.533361, "confidence": 0.000558, "wall_time": "2026-03-10T13:37:57.714569", "transport_ms": 1.213, "infer_ms": 36.085, "post_ms": 0.548, "pipeline_ms": 40.375}
+{"gesture": "thumb_down", "timestamp": 1633014930.533361, "confidence": 0.00039, "wall_time": "2026-03-10T13:37:57.714704", "transport_ms": 1.213, "infer_ms": 36.085, "post_ms": 0.548, "pipeline_ms": 40.511}
+{"gesture": "thumb_in", "timestamp": 1633014930.533361, "confidence": 0.001532, "wall_time": "2026-03-10T13:37:57.714836", "transport_ms": 1.213, "infer_ms": 36.085, "post_ms": 0.548, "pipeline_ms": 40.643}
+{"gesture": "thumb_out", "timestamp": 1633014930.533361, "confidence": 0.000457, "wall_time": "2026-03-10T13:37:57.714967", "transport_ms": 1.213, "infer_ms": 36.085, "post_ms": 0.548, "pipeline_ms": 40.775}
+{"gesture": "thumb_up", "timestamp": 1633014930.533361, "confidence": 0.00082, "wall_time": "2026-03-10T13:37:57.715110", "transport_ms": 1.213, "infer_ms": 36.085, "post_ms": 0.548, "pipeline_ms": 40.918}

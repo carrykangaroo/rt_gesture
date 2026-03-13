@@ -1,0 +1,22 @@
+2026-03-10 13:37:56,838 [INFO] rt_gesture.main: RT-Gesture run directory: logs/2026-03-10_13-37-56
+2026-03-10 13:37:56,844 [INFO] rt_gesture.main: InferenceEngine started (pid=30802)
+2026-03-10 13:37:57,013 [INFO] rt_gesture.checkpoint_utils: Loaded checkpoint /home/rxb/rt_gesture/workspace/checkpoints/discrete_gestures/model_checkpoint.ckpt with 6482953 parameters on cpu
+2026-03-10 13:37:57,020 [INFO] rt_gesture.inference_engine: InferenceEngine started on device=cpu
+2026-03-10 13:37:57,351 [INFO] rt_gesture.main: DataSimulator started (pid=30816)
+2026-03-10 13:37:57,673 [INFO] rt_gesture.data_simulator: Loaded HDF5 file /Data/CTRL_LAB/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5 with 5480192 samples and 1900 prompts
+2026-03-10 13:37:57,673 [INFO] rt_gesture.data_simulator: DataSimulator started
+2026-03-10 13:37:57,713 [WARNING] rt_gesture.inference_engine: Inference latency high: 36.085 ms (threshold 10.000 ms)
+2026-03-10 13:37:57,714 [INFO] rt_gesture.inference_engine: Detected index_press at 1633014930.533s conf=0.002 pipeline=39.610ms
+2026-03-10 13:37:57,714 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014930.533s conf=0.004 pipeline=39.937ms
+2026-03-10 13:37:57,714 [INFO] rt_gesture.inference_engine: Detected middle_press at 1633014930.533s conf=0.001 pipeline=40.089ms
+2026-03-10 13:37:57,714 [INFO] rt_gesture.inference_engine: Detected middle_release at 1633014930.533s conf=0.058 pipeline=40.238ms
+2026-03-10 13:37:57,714 [INFO] rt_gesture.inference_engine: Detected thumb_click at 1633014930.533s conf=0.001 pipeline=40.375ms
+2026-03-10 13:37:57,714 [INFO] rt_gesture.inference_engine: Detected thumb_down at 1633014930.533s conf=0.000 pipeline=40.511ms
+2026-03-10 13:37:57,714 [INFO] rt_gesture.inference_engine: Detected thumb_in at 1633014930.533s conf=0.002 pipeline=40.643ms
+2026-03-10 13:37:57,715 [INFO] rt_gesture.inference_engine: Detected thumb_out at 1633014930.533s conf=0.000 pipeline=40.775ms
+2026-03-10 13:37:57,715 [INFO] rt_gesture.inference_engine: Detected thumb_up at 1633014930.533s conf=0.001 pipeline=40.918ms
+2026-03-10 13:37:57,724 [WARNING] rt_gesture.inference_engine: Transport latency high: 21.194 ms (threshold 5.000 ms)
+2026-03-10 13:37:57,731 [WARNING] rt_gesture.inference_engine: Transport latency high: 10.568 ms (threshold 5.000 ms)
+2026-03-10 13:37:58,155 [INFO] rt_gesture.data_simulator: DataSimulator stopped after 25 chunks (1000/5480192 samples)
+2026-03-10 13:37:58,195 [INFO] rt_gesture.main: DataSimulator exited (code=0)
+2026-03-10 13:37:58,297 [INFO] rt_gesture.main: RT-Gesture shutdown complete

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import socket
 import threading
 import time
@@ -115,7 +116,15 @@ def test_end_to_end_simulator_to_inference_pipeline(tmp_path: Path) -> None:
     assert probability_messages >= 1
     assert event_messages >= 1
     assert (run_dir / "predictions.npz").exists()
-    assert (run_dir / "events.jsonl").exists()
+    events_path = run_dir / "events.jsonl"
+    assert events_path.exists()
+
+    lines = events_path.read_text(encoding="utf-8").splitlines()
+    assert lines
+    first_payload = json.loads(lines[0])
+    for key in ("transport_ms", "infer_ms", "post_ms", "pipeline_ms"):
+        assert key in first_payload
+        assert float(first_payload[key]) >= 0.0
 
 
 def test_inference_recovers_after_data_timeout_gap() -> None:

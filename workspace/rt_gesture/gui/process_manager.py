@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import subprocess
 import sys
 import time
@@ -11,6 +12,8 @@ import zmq
 
 from rt_gesture.constants import MsgType
 from rt_gesture.zmq_transport import ZmqPublisher
+
+log = logging.getLogger(__name__)
 
 
 class ProcessManager:
@@ -43,11 +46,27 @@ class ProcessManager:
     def request_shutdown(self, control_port: int) -> None:
         """Send SHUTDOWN control message to backend subscribers."""
         ctx = zmq.Context()
-        publisher = ZmqPublisher(ctx, control_port, bind=True)
-        time.sleep(0.1)
-        publisher.send(MsgType.SHUTDOWN)
-        publisher.close()
-        ctx.term()
+        publisher: ZmqPublisher | None = None
+        deadline = time.monotonic() + 2.0
+        try:
+            while True:
+                try:
+                    publisher = ZmqPublisher(ctx, control_port, bind=True)
+                    break
+                except zmq.ZMQError:
+                    if time.monotonic() >= deadline:
+                        log.warning(
+                            "Unable to bind control shutdown publisher on port %s",
+                            control_port,
+                        )
+                        return
+                    time.sleep(0.1)
+            time.sleep(0.1)
+            publisher.send(MsgType.SHUTDOWN)
+        finally:
+            if publisher is not None:
+                publisher.close()
+            ctx.term()
 
     def stop(self, control_port: int, timeout_sec: float) -> bool:
         """Request graceful shutdown then enforce terminate/kill if needed."""
@@ -68,4 +87,3 @@ class ProcessManager:
         finally:
             self._process = None
         return True
-

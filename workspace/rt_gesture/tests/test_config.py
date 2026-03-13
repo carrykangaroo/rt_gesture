@@ -60,3 +60,24 @@ def test_dict_to_config_handles_empty_input() -> None:
     config = dict_to_config({})
     assert isinstance(config, AppConfig)
     assert config.inference.result_port == ZMQ_RESULT_PORT
+
+
+def test_load_config_supports_data_root_env_placeholder(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config_path = tmp_path / "config.yaml"
+    config_path.write_text(
+        yaml.safe_dump(
+            {
+                "data_simulator": {
+                    "hdf5_path": "${RT_GESTURE_DATA_ROOT}/mini/sample.hdf5",
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setenv("RT_GESTURE_DATA_ROOT", "/tmp/rt_gesture_data")
+    loaded = load_config(config_path)
+    assert Path(loaded.data_simulator.hdf5_path) == Path("/tmp/rt_gesture_data/mini/sample.hdf5").resolve()

@@ -1,0 +1,13 @@
+{
+  "checkpoint_path": "/home/rxb/rt_gesture/workspace/checkpoints/discrete_gestures/model_checkpoint.ckpt",
+  "hdf5_path": "/Data/CTRL_LAB/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5",
+  "full_chunk_size": 16000,
+  "stream_chunk_size": 40,
+  "full_cler": 0.1326910999602993,
+  "streaming_cler": 0.13297878791922013,
+  "cler_abs_diff": 0.0002876879589208403,
+  "full_forward_ms": 15337.536887993338,
+  "streaming_forward_ms": 159590.19106400956,
+  "frames_full": 548018,
+  "frames_streaming": 548018
+}

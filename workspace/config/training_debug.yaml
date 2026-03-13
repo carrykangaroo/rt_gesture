@@ -1,6 +1,6 @@
 data:
-  data_location: "/mnt/data/Dataset/generic-neuromotor-interface-data/Discrete Gestures/full"
-  split_csv: "/mnt/data/Dataset/generic-neuromotor-interface-data/Discrete Gestures/full/discrete_gestures_corpus.csv"
+  data_location: "${RT_GESTURE_DATA_ROOT}/full"
+  split_csv: "${RT_GESTURE_DATA_ROOT}/full/discrete_gestures_corpus.csv"
   pool_test_partitions: false
   window_length: 16000
   stride: 16000

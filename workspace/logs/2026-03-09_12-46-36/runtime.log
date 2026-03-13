@@ -1,0 +1,9 @@
+2026-03-09 12:46:36,889 [INFO] rt_gesture.main: RT-Gesture run directory: logs/2026-03-09_12-46-36
+2026-03-09 12:46:36,896 [INFO] rt_gesture.main: InferenceEngine started (pid=18870)
+2026-03-09 12:46:37,404 [INFO] rt_gesture.main: DataSimulator started (pid=18878)
+2026-03-09 12:46:37,771 [INFO] rt_gesture.data_simulator: Loaded HDF5 file /Data/CTRL_LAB/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5 with 5480192 samples and 1900 prompts
+2026-03-09 12:46:37,771 [INFO] rt_gesture.data_simulator: DataSimulator started
+2026-03-09 12:46:40,595 [INFO] rt_gesture.checkpoint_utils: Loaded checkpoint /home/rxb/rt_gesture/workspace/checkpoints/discrete_gestures/model_checkpoint.ckpt with 6482953 parameters on cuda
+2026-03-09 12:46:40,597 [INFO] rt_gesture.inference_engine: InferenceEngine started on device=cuda
+2026-03-09 12:46:40,612 [WARNING] rt_gesture.zmq_transport: ZMQ port 5595 seq gap: expected=0 got=142 gap=142
+2026-03-09 12:46:40,613 [WARNING] rt_gesture.inference_engine: Data interruption detected (sequence gap), resetting states

@@ -1,7 +1,7 @@
 # RT-Gesture default configuration
 
 data_simulator:
-  hdf5_path: "/mnt/data/Dataset/generic-neuromotor-interface-data/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5"
+  hdf5_path: "${RT_GESTURE_DATA_ROOT}/mini/discrete_gestures_user_000_dataset_000.hdf5"
   chunk_size: 40
   max_chunks: null
   emg_port: 5555

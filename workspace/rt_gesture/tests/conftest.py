@@ -13,9 +13,20 @@ from rt_gesture.networks import DiscreteGesturesArchitecture
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 WORKSPACE_ROOT = Path(__file__).resolve().parents[2]
-MINI_DATA_DIR = Path(
-    "/mnt/data/Dataset/generic-neuromotor-interface-data/Discrete Gestures/mini"
-)
+_MINI_DATA_DIR_CANDIDATES = [
+    Path("/mnt/data/Dataset/generic-neuromotor-interface-data/Discrete Gestures/mini"),
+    Path("/Data/CTRL_LAB/Discrete Gestures/mini"),
+]
+
+
+def _resolve_mini_data_dir() -> Path | None:
+    for candidate in _MINI_DATA_DIR_CANDIDATES:
+        if candidate.exists():
+            return candidate
+    return None
+
+
+MINI_DATA_DIR = _resolve_mini_data_dir()
 
 
 def _resolve_checkpoint_path() -> Path | None:
@@ -64,6 +75,11 @@ def event_detector() -> EventDetector:
 
 @pytest.fixture
 def mini_hdf5_path() -> Path:
+    if MINI_DATA_DIR is None:
+        pytest.skip(
+            "No mini HDF5 dataset found in "
+            + " or ".join(str(path) for path in _MINI_DATA_DIR_CANDIDATES)
+        )
     files = sorted(MINI_DATA_DIR.glob("*.hdf5"))
     if not files:
         pytest.skip(f"No mini HDF5 dataset found in {MINI_DATA_DIR}")

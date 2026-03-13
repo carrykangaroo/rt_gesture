@@ -1,0 +1,28 @@
+data:
+  data_location: /Data/CTRL_LAB/Discrete Gestures/full
+  split_csv: /tmp/discrete_gestures_tiny.csv
+  pool_test_partitions: false
+  window_length: 16000
+  stride: 16000
+  batch_size: 16
+  num_workers: 0
+  pulse_window:
+  - 0.08
+  - 0.12
+  rotation_augmentation: 2
+  include_test_loader: false
+checkpoint_dir: checkpoints
+run_name: discrete_gestures_debug_tiny
+seed: 0
+device: cuda
+learning_rate: 0.0005
+max_epochs: 1
+gradient_clip_val: 0.5
+lr_scheduler_milestones:
+- 25
+lr_scheduler_factor: 0.5
+warmup_start_factor: 0.001
+warmup_end_factor: 1.0
+warmup_total_epochs: 1
+max_train_steps_per_epoch: 2
+max_val_steps_per_epoch: 2

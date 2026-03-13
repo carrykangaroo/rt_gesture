@@ -52,13 +52,31 @@ class EventLogger:
         self._path = Path(run_dir) / "events.jsonl"
         self._file = self._path.open("w", encoding="utf-8")
 
-    def log_event(self, gesture: str, timestamp: float, confidence: float) -> None:
+    def log_event(
+        self,
+        gesture: str,
+        timestamp: float,
+        confidence: float,
+        *,
+        transport_ms: float | None = None,
+        infer_ms: float | None = None,
+        post_ms: float | None = None,
+        pipeline_ms: float | None = None,
+    ) -> None:
         payload = {
             "gesture": gesture,
             "timestamp": float(timestamp),
             "confidence": round(float(confidence), 6),
             "wall_time": datetime.now().isoformat(),
         }
+        if transport_ms is not None:
+            payload["transport_ms"] = round(float(transport_ms), 3)
+        if infer_ms is not None:
+            payload["infer_ms"] = round(float(infer_ms), 3)
+        if post_ms is not None:
+            payload["post_ms"] = round(float(post_ms), 3)
+        if pipeline_ms is not None:
+            payload["pipeline_ms"] = round(float(pipeline_ms), 3)
         self._file.write(json.dumps(payload, ensure_ascii=False) + "\n")
         self._file.flush()
 
@@ -92,4 +110,3 @@ class PredictionStore:
         all_times = np.concatenate(self._time_chunks, axis=0)
         np.savez_compressed(path, probs=all_probs, times=all_times)
         return path
-

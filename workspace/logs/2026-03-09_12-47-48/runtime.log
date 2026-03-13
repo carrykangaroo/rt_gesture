@@ -1,0 +1,138 @@
+2026-03-09 12:47:48,790 [INFO] rt_gesture.main: RT-Gesture run directory: logs/2026-03-09_12-47-48
+2026-03-09 12:47:48,796 [INFO] rt_gesture.main: InferenceEngine started (pid=19028)
+2026-03-09 12:47:49,303 [INFO] rt_gesture.main: DataSimulator started (pid=19036)
+2026-03-09 12:47:49,674 [INFO] rt_gesture.data_simulator: Loaded HDF5 file /Data/CTRL_LAB/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5 with 5480192 samples and 1900 prompts
+2026-03-09 12:47:49,674 [INFO] rt_gesture.data_simulator: DataSimulator started
+2026-03-09 12:47:52,439 [INFO] rt_gesture.checkpoint_utils: Loaded checkpoint /home/rxb/rt_gesture/workspace/checkpoints/discrete_gestures_debug_tiny/20260309_124309/best.ckpt with 6482953 parameters on cuda
+2026-03-09 12:47:52,441 [INFO] rt_gesture.inference_engine: InferenceEngine started on device=cuda
+2026-03-09 12:47:52,455 [WARNING] rt_gesture.zmq_transport: ZMQ port 5605 seq gap: expected=0 got=139 gap=139
+2026-03-09 12:47:52,456 [WARNING] rt_gesture.inference_engine: Data interruption detected (sequence gap), resetting states
+2026-03-09 12:47:53,391 [WARNING] rt_gesture.inference_engine: Transport latency high: 890.289 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,391 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 896.268 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,391 [INFO] rt_gesture.inference_engine: Detected index_press at 1633014930.558s conf=0.826 pipeline=896.552ms
+2026-03-09 12:47:53,392 [INFO] rt_gesture.inference_engine: Detected middle_press at 1633014930.558s conf=0.315 pipeline=896.891ms
+2026-03-09 12:47:53,392 [INFO] rt_gesture.inference_engine: Detected middle_release at 1633014930.558s conf=0.728 pipeline=897.036ms
+2026-03-09 12:47:53,392 [INFO] rt_gesture.inference_engine: Detected thumb_click at 1633014930.558s conf=0.451 pipeline=897.170ms
+2026-03-09 12:47:53,392 [INFO] rt_gesture.inference_engine: Detected thumb_down at 1633014930.558s conf=0.286 pipeline=897.317ms
+2026-03-09 12:47:53,392 [INFO] rt_gesture.inference_engine: Detected thumb_in at 1633014930.558s conf=0.678 pipeline=897.445ms
+2026-03-09 12:47:53,392 [INFO] rt_gesture.inference_engine: Detected thumb_out at 1633014930.558s conf=0.408 pipeline=897.569ms
+2026-03-09 12:47:53,392 [INFO] rt_gesture.inference_engine: Detected thumb_up at 1633014930.558s conf=0.645 pipeline=897.693ms
+2026-03-09 12:47:53,394 [WARNING] rt_gesture.inference_engine: Transport latency high: 877.893 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,394 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 879.534 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,396 [WARNING] rt_gesture.inference_engine: Transport latency high: 859.751 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,396 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 861.222 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,398 [WARNING] rt_gesture.inference_engine: Transport latency high: 841.568 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,398 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 843.020 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,399 [WARNING] rt_gesture.inference_engine: Transport latency high: 823.292 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,399 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 824.768 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,401 [WARNING] rt_gesture.inference_engine: Transport latency high: 805.040 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,401 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 806.490 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,403 [WARNING] rt_gesture.inference_engine: Transport latency high: 786.757 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,403 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 788.198 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,404 [WARNING] rt_gesture.inference_engine: Transport latency high: 768.456 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,405 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 769.905 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,406 [WARNING] rt_gesture.inference_engine: Transport latency high: 750.175 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,406 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 751.623 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,408 [WARNING] rt_gesture.inference_engine: Transport latency high: 731.908 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,408 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 733.355 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,410 [WARNING] rt_gesture.inference_engine: Transport latency high: 713.620 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,410 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 715.044 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,413 [WARNING] rt_gesture.inference_engine: Transport latency high: 695.306 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,413 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 698.440 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,415 [WARNING] rt_gesture.inference_engine: Transport latency high: 678.711 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,415 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 680.216 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,417 [WARNING] rt_gesture.inference_engine: Transport latency high: 660.490 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,417 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 661.942 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,418 [WARNING] rt_gesture.inference_engine: Transport latency high: 642.201 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,418 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 643.632 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,420 [WARNING] rt_gesture.inference_engine: Transport latency high: 623.903 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,420 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 625.342 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,420 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014930.843s conf=0.207 pipeline=625.528ms
+2026-03-09 12:47:53,422 [WARNING] rt_gesture.inference_engine: Transport latency high: 605.756 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,422 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 607.203 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,422 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014930.868s conf=0.213 pipeline=607.388ms
+2026-03-09 12:47:53,424 [WARNING] rt_gesture.inference_engine: Transport latency high: 587.623 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,424 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 589.063 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,425 [WARNING] rt_gesture.inference_engine: Transport latency high: 569.322 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,425 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 570.750 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,427 [WARNING] rt_gesture.inference_engine: Transport latency high: 551.010 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,427 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 552.452 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,429 [WARNING] rt_gesture.inference_engine: Transport latency high: 532.718 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,429 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 534.158 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,430 [WARNING] rt_gesture.inference_engine: Transport latency high: 514.417 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,431 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 515.850 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,432 [WARNING] rt_gesture.inference_engine: Transport latency high: 496.122 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,432 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 497.585 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,434 [WARNING] rt_gesture.inference_engine: Transport latency high: 477.846 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,434 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 479.284 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,436 [WARNING] rt_gesture.inference_engine: Transport latency high: 459.545 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,436 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 460.989 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,437 [WARNING] rt_gesture.inference_engine: Transport latency high: 441.261 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,437 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 442.690 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,439 [WARNING] rt_gesture.inference_engine: Transport latency high: 422.949 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,439 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 424.411 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,439 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014931.073s conf=0.206 pipeline=424.596ms
+2026-03-09 12:47:53,441 [WARNING] rt_gesture.inference_engine: Transport latency high: 404.832 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,441 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 406.267 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,443 [WARNING] rt_gesture.inference_engine: Transport latency high: 386.526 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,443 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 387.995 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,444 [WARNING] rt_gesture.inference_engine: Transport latency high: 368.286 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,444 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 369.725 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,446 [WARNING] rt_gesture.inference_engine: Transport latency high: 349.982 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,446 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 351.413 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,448 [WARNING] rt_gesture.inference_engine: Transport latency high: 331.675 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,448 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 333.128 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,449 [WARNING] rt_gesture.inference_engine: Transport latency high: 313.391 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,450 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 314.829 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,451 [WARNING] rt_gesture.inference_engine: Transport latency high: 295.090 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,451 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 296.528 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,453 [WARNING] rt_gesture.inference_engine: Transport latency high: 276.790 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,453 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 278.231 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,455 [WARNING] rt_gesture.inference_engine: Transport latency high: 258.495 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,455 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 259.946 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,456 [WARNING] rt_gesture.inference_engine: Transport latency high: 240.211 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,456 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 241.656 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,458 [WARNING] rt_gesture.inference_engine: Transport latency high: 221.929 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,458 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 223.386 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,460 [WARNING] rt_gesture.inference_engine: Transport latency high: 203.656 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,460 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 205.114 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,461 [WARNING] rt_gesture.inference_engine: Transport latency high: 185.379 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,462 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 186.840 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,463 [WARNING] rt_gesture.inference_engine: Transport latency high: 167.099 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,463 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 168.554 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,465 [WARNING] rt_gesture.inference_engine: Transport latency high: 148.817 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,465 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 150.248 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,467 [WARNING] rt_gesture.inference_engine: Transport latency high: 130.525 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,467 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 131.974 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,468 [WARNING] rt_gesture.inference_engine: Transport latency high: 112.277 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,469 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 113.832 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,470 [WARNING] rt_gesture.inference_engine: Transport latency high: 94.092 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,470 [WARNING] rt_gesture.inference_engine: Pipeline latency high: 95.529 ms (threshold 80.000 ms)
+2026-03-09 12:47:53,472 [WARNING] rt_gesture.inference_engine: Transport latency high: 75.792 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,473 [WARNING] rt_gesture.inference_engine: Transport latency high: 57.423 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,474 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014931.473s conf=0.203 pipeline=58.989ms
+2026-03-09 12:47:53,475 [WARNING] rt_gesture.inference_engine: Transport latency high: 39.122 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,475 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014931.498s conf=0.212 pipeline=40.695ms
+2026-03-09 12:47:53,477 [WARNING] rt_gesture.inference_engine: Transport latency high: 20.884 ms (threshold 5.000 ms)
+2026-03-09 12:47:53,536 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014931.598s conf=0.206 pipeline=1.703ms
+2026-03-09 12:47:53,596 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014931.653s conf=0.202 pipeline=1.714ms
+2026-03-09 12:47:53,717 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014931.763s conf=0.201 pipeline=1.961ms
+2026-03-09 12:47:53,956 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014932.003s conf=0.201 pipeline=1.717ms
+2026-03-09 12:47:54,096 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014932.148s conf=0.207 pipeline=1.695ms
+2026-03-09 12:47:54,257 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014932.308s conf=0.227 pipeline=1.924ms
+2026-03-09 12:47:54,456 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014932.518s conf=0.214 pipeline=1.724ms
+2026-03-09 12:47:54,517 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014932.573s conf=0.204 pipeline=1.943ms
+2026-03-09 12:47:54,636 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014932.693s conf=0.211 pipeline=1.699ms
+2026-03-09 12:47:54,797 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014932.853s conf=0.202 pipeline=1.988ms
+2026-03-09 12:47:54,897 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014932.943s conf=0.200 pipeline=1.958ms
+2026-03-09 12:47:54,977 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014933.038s conf=0.201 pipeline=1.980ms
+2026-03-09 12:47:55,017 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014933.068s conf=0.206 pipeline=1.990ms
+2026-03-09 12:47:55,037 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014933.093s conf=0.202 pipeline=2.092ms
+2026-03-09 12:47:55,377 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014933.428s conf=0.217 pipeline=1.968ms
+2026-03-09 12:47:55,397 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014933.458s conf=0.201 pipeline=1.990ms
+2026-03-09 12:47:55,457 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014933.518s conf=0.207 pipeline=1.995ms
+2026-03-09 12:47:55,517 [INFO] rt_gesture.inference_engine: Detected index_release at 1633014933.568s conf=0.206 pipeline=1.989ms
+2026-03-09 12:47:55,655 [INFO] rt_gesture.data_simulator: DataSimulator stopped after 300 chunks (12000/5480192 samples)
+2026-03-09 12:47:55,691 [INFO] rt_gesture.main: DataSimulator exited
+2026-03-09 12:47:55,793 [INFO] rt_gesture.inference_engine: InferenceEngine received SHUTDOWN
+2026-03-09 12:47:56,010 [INFO] rt_gesture.main: RT-Gesture shutdown complete

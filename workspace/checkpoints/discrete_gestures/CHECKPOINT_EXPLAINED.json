@@ -1,0 +1,372 @@
+﻿{
+  "checkpoint_path": "emg_models\\discrete_gestures\\model_checkpoint.ckpt",
+  "top_level_key_meanings": {
+    "state_dict": "Model weights and buffers keyed by module names.",
+    "hyper_parameters": "Saved hyperparameters from LightningModule.save_hyperparameters().",
+    "optimizer_states": "Optimizer internal state (e.g., Adam moments) for resuming training.",
+    "lr_schedulers": "LR scheduler state for resuming training.",
+    "loops": "Lightning loop progress state for resuming.",
+    "callbacks": "Callback state (e.g., ModelCheckpoint).",
+    "epoch": "Epoch index saved in the checkpoint.",
+    "global_step": "Total optimizer steps saved in the checkpoint.",
+    "pytorch-lightning_version": "Lightning version that created this checkpoint."
+  },
+  "summary": {
+    "checkpoint_path": "emg_models\\discrete_gestures\\model_checkpoint.ckpt",
+    "checkpoint_size_bytes": 77827908,
+    "checkpoint_sha256": "17ef2ca0c849a59e0a03bfeb5405d1fa6f11cd5de34751d3d770d7809abb2369",
+    "torch_version": "2.3.1",
+    "pytorch_lightning_version": "1.8.6",
+    "epoch": 79,
+    "global_step": 2240,
+    "top_level_keys": [
+      "callbacks",
+      "epoch",
+      "global_step",
+      "hparams_name",
+      "hyper_parameters",
+      "loops",
+      "lr_schedulers",
+      "optimizer_states",
+      "pytorch-lightning_version",
+      "state_dict"
+    ],
+    "state_dict_summary": {
+      "num_tensors": 20,
+      "total_numel": 6482953,
+      "total_bytes": 25931812,
+      "dtypes": {
+        "torch.float32": 20
+      },
+      "most_common_shapes": [
+        [
+          "(2048, 512)",
+          6
+        ],
+        [
+          "(2048,)",
+          6
+        ],
+        [
+          "(512,)",
+          5
+        ],
+        [
+          "(512, 16, 21)",
+          1
+        ],
+        [
+          "(9, 512)",
+          1
+        ],
+        [
+          "(9,)",
+          1
+        ]
+      ]
+    },
+    "state_dict_prefix_stats": {
+      "tensors_by_prefix": {
+        "network": 20
+      },
+      "numel_by_prefix": {
+        "network": 6482953
+      },
+      "bytes_by_prefix": {
+        "network": 25931812
+      }
+    },
+    "optimizer_states_summary": [
+      {
+        "index": 0,
+        "num_param_groups": 1,
+        "num_param_states": 20,
+        "num_state_tensors": 60,
+        "state_tensor_bytes": 51863704
+      }
+    ],
+    "lr_schedulers_present": true,
+    "callbacks_present": true,
+    "loops_present": true
+  },
+  "hyper_parameters": {
+    "network": {
+      "__type__": "generic_neuromotor_interface.networks.DiscreteGesturesArchitecture",
+      "__repr__": "DiscreteGesturesArchitecture(\n  (compression): ReinhardCompression()\n  (conv_layer): Conv1d(16, 512, kernel_size=(21,), stride=(10,))\n  (relu): ReLU()\n  (dropout): Dropout(p=0.1, inplace=False)\n  (post_conv_layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)\n  (lstm): LSTM(512, 512, num_layers=3, batch_first=True, dropout=0.1)\n  (post_lstm_layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)\n  (projection): Linear(in_features=512, out_features=9, bias=True)\n)",
+      "num_parameters": 6482953,
+      "num_trainable_parameters": 6482953,
+      "num_buffers": 0
+    },
+    "optimizer": {
+      "__type__": "functools.partial",
+      "__repr__": "functools.partial(<class 'torch.optim.adam.Adam'>, lr=0.0001)"
+    },
+    "learning_rate": 0.0005,
+    "lr_scheduler_milestones": [
+      25
+    ],
+    "lr_scheduler_factor": 0.5,
+    "warmup_start_factor": 0.001,
+    "warmup_end_factor": 1.0,
+    "warmup_total_epochs": 5,
+    "gradient_clip_val": 0.5
+  },
+  "state_dict": {
+    "summary": {
+      "num_tensors": 20,
+      "total_numel": 6482953,
+      "total_bytes": 25931812,
+      "dtypes": {
+        "torch.float32": 20
+      },
+      "most_common_shapes": [
+        [
+          "(2048, 512)",
+          6
+        ],
+        [
+          "(2048,)",
+          6
+        ],
+        [
+          "(512,)",
+          5
+        ],
+        [
+          "(512, 16, 21)",
+          1
+        ],
+        [
+          "(9, 512)",
+          1
+        ],
+        [
+          "(9,)",
+          1
+        ]
+      ]
+    },
+    "prefix_stats": {
+      "tensors_by_prefix": {
+        "network": 20
+      },
+      "numel_by_prefix": {
+        "network": 6482953
+      },
+      "bytes_by_prefix": {
+        "network": 25931812
+      }
+    },
+    "entries": {
+      "network.conv_layer.bias": {
+        "__tensor__": true,
+        "shape": [
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 512,
+        "bytes": 2048
+      },
+      "network.conv_layer.weight": {
+        "__tensor__": true,
+        "shape": [
+          512,
+          16,
+          21
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 172032,
+        "bytes": 688128
+      },
+      "network.lstm.bias_hh_l0": {
+        "__tensor__": true,
+        "shape": [
+          2048
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 2048,
+        "bytes": 8192
+      },
+      "network.lstm.bias_hh_l1": {
+        "__tensor__": true,
+        "shape": [
+          2048
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 2048,
+        "bytes": 8192
+      },
+      "network.lstm.bias_hh_l2": {
+        "__tensor__": true,
+        "shape": [
+          2048
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 2048,
+        "bytes": 8192
+      },
+      "network.lstm.bias_ih_l0": {
+        "__tensor__": true,
+        "shape": [
+          2048
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 2048,
+        "bytes": 8192
+      },
+      "network.lstm.bias_ih_l1": {
+        "__tensor__": true,
+        "shape": [
+          2048
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 2048,
+        "bytes": 8192
+      },
+      "network.lstm.bias_ih_l2": {
+        "__tensor__": true,
+        "shape": [
+          2048
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 2048,
+        "bytes": 8192
+      },
+      "network.lstm.weight_hh_l0": {
+        "__tensor__": true,
+        "shape": [
+          2048,
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 1048576,
+        "bytes": 4194304
+      },
+      "network.lstm.weight_hh_l1": {
+        "__tensor__": true,
+        "shape": [
+          2048,
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 1048576,
+        "bytes": 4194304
+      },
+      "network.lstm.weight_hh_l2": {
+        "__tensor__": true,
+        "shape": [
+          2048,
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 1048576,
+        "bytes": 4194304
+      },
+      "network.lstm.weight_ih_l0": {
+        "__tensor__": true,
+        "shape": [
+          2048,
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 1048576,
+        "bytes": 4194304
+      },
+      "network.lstm.weight_ih_l1": {
+        "__tensor__": true,
+        "shape": [
+          2048,
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 1048576,
+        "bytes": 4194304
+      },
+      "network.lstm.weight_ih_l2": {
+        "__tensor__": true,
+        "shape": [
+          2048,
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 1048576,
+        "bytes": 4194304
+      },
+      "network.post_conv_layer_norm.bias": {
+        "__tensor__": true,
+        "shape": [
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 512,
+        "bytes": 2048
+      },
+      "network.post_conv_layer_norm.weight": {
+        "__tensor__": true,
+        "shape": [
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 512,
+        "bytes": 2048
+      },
+      "network.post_lstm_layer_norm.bias": {
+        "__tensor__": true,
+        "shape": [
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 512,
+        "bytes": 2048
+      },
+      "network.post_lstm_layer_norm.weight": {
+        "__tensor__": true,
+        "shape": [
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 512,
+        "bytes": 2048
+      },
+      "network.projection.bias": {
+        "__tensor__": true,
+        "shape": [
+          9
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 9,
+        "bytes": 36
+      },
+      "network.projection.weight": {
+        "__tensor__": true,
+        "shape": [
+          9,
+          512
+        ],
+        "dtype": "torch.float32",
+        "device": "cpu",
+        "numel": 4608,
+        "bytes": 18432
+      }
+    }
+  }
+}

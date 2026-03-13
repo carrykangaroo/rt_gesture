@@ -2,9 +2,9 @@
 
 > 文档类型：实现评审文档  
 > 适用目录：`workspace/`  
-> 更新日期：2026-03-07  
+> 更新日期：2026-03-09  
 > 对应需求文档：`doc/实时离散手势识别系统需求规格说明书.md`（v0.3）  
-> 对应技术文档：`doc/技术实现文档.md`（v1.2）
+> 对应技术文档：`doc/技术实现文档.md`（v1.3）
 
 ---
 
@@ -89,6 +89,8 @@ workspace/
 8. CLER 评估优化：`evaluate.py` 新增 `full_chunk_size` 分块 full-forward，解决 CPU OOM。
 9. 稳定性验证脚本：新增 `scripts/run_stability_validation.py`，自动输出延迟/内存趋势报告。
 10. 文档与工程同步：README、CHANGELOG、需求/技术文档版本与约束已回刷。
+11. checkpoint 兼容增强：`checkpoint_utils.py` 新增 legacy 模块别名映射，兼容历史 `generic_neuromotor_interface.*` 序列化路径。
+12. 训练数据路径兼容：`data.py` 支持 split CSV 中已带 `.hdf5` 后缀的数据集名，避免重复拼接扩展名导致的文件找不到。
 
 ---
 
@@ -275,11 +277,21 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 8. 日志：`test_logger.py`
 9. 性能基准：`test_benchmark.py`
 
-### 8.2 最近一次全量结果（2026-03-07）
+### 8.2 最近一次全量结果（2026-03-09）
 
-1. `conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 python -m pytest -q`
-2. 结果：`59 passed, 1 skipped`
-3. 结论：当前优化变更无回归失败。
+1. 命令：`/home/rxb/.conda/envs/torch2.0.1/bin/python -m pytest -q --tb=short`
+2. 结果：`58 passed, 1 skipped, 1 failed`
+3. 失败项：`rt_gesture/tests/test_benchmark.py::test_event_detector_latency_budget`
+4. 补充执行：
+   - `-m benchmark`：`2 failed, 2 passed`
+   - `RT_GESTURE_RUN_SLOW=1 -m slow`：`1 passed`
+
+### 8.3 端到端实测结果（2026-03-09）
+
+1. 评估报告：`logs/evaluation_report.json`，`cler_abs_diff=0.0002876879589208403`。
+2. Full 基准报告：`logs/evaluation_benchmark_report.json`，`cler_abs_diff=0.0`。
+3. 稳定性报告：`logs/stability_3min_report.json`，`duration_observed_sec=181.94`，`pipeline_ms.p95=1.711`。
+4. 实时链路产物示例：`logs/2026-03-09_12-45-14/`（包含 `runtime.log` / `events.jsonl` / `predictions.npz`）。
 
 ---
 
@@ -302,38 +314,30 @@ conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
 ```bash
 # 全量测试
 cd workspace
-conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 python -m pytest -q
+/home/rxb/.conda/envs/torch2.0.1/bin/python -m pytest -q
 
 # 仅 benchmark
-conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
-  python -m pytest -q -m benchmark
+/home/rxb/.conda/envs/torch2.0.1/bin/python -m pytest -q -m benchmark
 
 # 实时后端
-conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
-  python scripts/run_realtime.py --config config/default.yaml
+/home/rxb/.conda/envs/torch2.0.1/bin/python scripts/run_realtime.py --config config/default.yaml
 
 # GUI
-conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
-  python scripts/run_gui.py --config config/default.yaml
+/home/rxb/.conda/envs/torch2.0.1/bin/python scripts/run_gui.py --config config/default.yaml
 
 # 正式训练
-conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
-  python scripts/run_training.py --config config/training.yaml
+/home/rxb/.conda/envs/torch2.0.1/bin/python scripts/run_training.py --config config/training.yaml
 
 # 调试训练
-conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
-  python scripts/run_training.py --config config/training_debug.yaml
+/home/rxb/.conda/envs/torch2.0.1/bin/python scripts/run_training.py --config config/training_debug.yaml
 
 # 评估
-conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
-  python scripts/run_evaluation.py --config config/evaluation.yaml
+/home/rxb/.conda/envs/torch2.0.1/bin/python scripts/run_evaluation.py --config config/evaluation.yaml
 
 # full recording CLER 基准
-conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
-  python scripts/run_evaluation.py --config config/evaluation_benchmark.yaml
+/home/rxb/.conda/envs/torch2.0.1/bin/python scripts/run_evaluation.py --config config/evaluation_benchmark.yaml
 
 # 3 分钟稳定性验证
-conda run -p /mnt/ext_drive/workspace/env/conda/torch2.4.1 \
-  python scripts/run_stability_validation.py \
+/home/rxb/.conda/envs/torch2.0.1/bin/python scripts/run_stability_validation.py \
   --config config/default.yaml --duration-sec 180 --report-path logs/stability_3min_report.json
 ```

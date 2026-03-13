@@ -1,0 +1,78 @@
+﻿{
+  "checkpoint_path": "emg_models\\discrete_gestures\\model_checkpoint.ckpt",
+  "checkpoint_size_bytes": 77827908,
+  "checkpoint_sha256": "17ef2ca0c849a59e0a03bfeb5405d1fa6f11cd5de34751d3d770d7809abb2369",
+  "torch_version": "2.3.1",
+  "pytorch_lightning_version": "1.8.6",
+  "epoch": 79,
+  "global_step": 2240,
+  "top_level_keys": [
+    "callbacks",
+    "epoch",
+    "global_step",
+    "hparams_name",
+    "hyper_parameters",
+    "loops",
+    "lr_schedulers",
+    "optimizer_states",
+    "pytorch-lightning_version",
+    "state_dict"
+  ],
+  "state_dict_summary": {
+    "num_tensors": 20,
+    "total_numel": 6482953,
+    "total_bytes": 25931812,
+    "dtypes": {
+      "torch.float32": 20
+    },
+    "most_common_shapes": [
+      [
+        "(2048, 512)",
+        6
+      ],
+      [
+        "(2048,)",
+        6
+      ],
+      [
+        "(512,)",
+        5
+      ],
+      [
+        "(512, 16, 21)",
+        1
+      ],
+      [
+        "(9, 512)",
+        1
+      ],
+      [
+        "(9,)",
+        1
+      ]
+    ]
+  },
+  "state_dict_prefix_stats": {
+    "tensors_by_prefix": {
+      "network": 20
+    },
+    "numel_by_prefix": {
+      "network": 6482953
+    },
+    "bytes_by_prefix": {
+      "network": 25931812
+    }
+  },
+  "optimizer_states_summary": [
+    {
+      "index": 0,
+      "num_param_groups": 1,
+      "num_param_states": 20,
+      "num_state_tensors": 60,
+      "state_tensor_bytes": 51863704
+    }
+  ],
+  "lr_schedulers_present": true,
+  "callbacks_present": true,
+  "loops_present": true
+}

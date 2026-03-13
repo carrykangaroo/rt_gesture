@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -34,7 +35,12 @@ class EvaluationConfig:
 
 
 def _resolve_path(path_str: str, base_dir: Path) -> str:
-    path = Path(path_str).expanduser()
+    data_root = os.environ.get("RT_GESTURE_DATA_ROOT", "/Data/CTRL_LAB/Discrete Gestures")
+    expanded = path_str.replace("${RT_GESTURE_DATA_ROOT}", data_root).replace(
+        "$RT_GESTURE_DATA_ROOT",
+        data_root,
+    )
+    path = Path(os.path.expandvars(expanded)).expanduser()
     if not path.is_absolute():
         path = (base_dir / path).resolve()
     return str(path)

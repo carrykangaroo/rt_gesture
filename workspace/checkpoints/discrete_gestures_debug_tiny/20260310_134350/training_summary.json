@@ -1,0 +1,29 @@
+{
+  "run_dir": "checkpoints/discrete_gestures_debug_tiny/20260310_134350",
+  "best_checkpoint": "checkpoints/discrete_gestures_debug_tiny/20260310_134350/best.ckpt",
+  "last_checkpoint": "checkpoints/discrete_gestures_debug_tiny/20260310_134350/last.ckpt",
+  "best_val_loss": 0.24772220849990845,
+  "best_val_multiclass_accuracy": 0.0,
+  "epoch_history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.7266312837600708,
+      "train_frame_accuracy": 0.5570520162582397,
+      "train_multiclass_accuracy": 0.0,
+      "val_loss": 0.7271064519882202,
+      "val_frame_accuracy": 0.5555555820465088,
+      "val_multiclass_accuracy": 0.0,
+      "lr": 0.0005
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.7291525602340698,
+      "train_frame_accuracy": 0.5568649172782898,
+      "train_multiclass_accuracy": 0.0,
+      "val_loss": 0.24772220849990845,
+      "val_frame_accuracy": 0.8866442441940308,
+      "val_multiclass_accuracy": 0.0,
+      "lr": 0.0005
+    }
+  ]
+}

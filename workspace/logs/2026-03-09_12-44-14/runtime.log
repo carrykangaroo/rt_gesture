@@ -1,0 +1,12 @@
+2026-03-09 12:44:14,364 [INFO] rt_gesture.main: RT-Gesture run directory: logs/2026-03-09_12-44-14
+2026-03-09 12:44:14,371 [INFO] rt_gesture.main: InferenceEngine started (pid=18658)
+2026-03-09 12:44:14,878 [INFO] rt_gesture.main: DataSimulator started (pid=18666)
+2026-03-09 12:44:15,224 [INFO] rt_gesture.data_simulator: Loaded HDF5 file /Data/CTRL_LAB/Discrete Gestures/mini/discrete_gestures_user_000_dataset_000.hdf5 with 5480192 samples and 1900 prompts
+2026-03-09 12:44:15,224 [INFO] rt_gesture.data_simulator: DataSimulator started
+2026-03-09 12:44:15,305 [INFO] rt_gesture.data_simulator: DataSimulator stopped after 5 chunks (200/5480192 samples)
+2026-03-09 12:44:15,337 [INFO] rt_gesture.main: DataSimulator exited
+2026-03-09 12:44:18,015 [INFO] rt_gesture.checkpoint_utils: Loaded checkpoint /home/rxb/rt_gesture/workspace/checkpoints/discrete_gestures/model_checkpoint.ckpt with 6482953 parameters on cuda
+2026-03-09 12:44:18,018 [INFO] rt_gesture.inference_engine: InferenceEngine started on device=cuda
+2026-03-09 12:44:20,444 [WARNING] rt_gesture.main: InferenceEngine timeout, terminating
+2026-03-09 12:44:20,444 [INFO] rt_gesture.inference_engine: InferenceEngine received signal 15
+2026-03-09 12:44:21,122 [INFO] rt_gesture.main: RT-Gesture shutdown complete
